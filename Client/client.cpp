@@ -79,7 +79,7 @@ void Client::connectServer()
 
 void Client::openMatLab()
 {
-    if (tcpSocket->putChar('a') == false)
+    if (tcpSocket->putChar(openCommand) == false)
     {
 
         QMessageBox::information(this, tr("Write Error"), tr("Error"));
@@ -87,6 +87,8 @@ void Client::openMatLab()
     else
     {
         openBtn->setEnabled(false);
+        disconnectBtn->setEnabled(false);
+        statusLabel->setText(tr("MatLab is starting"));
     }
 }
 
@@ -98,7 +100,7 @@ void Client::initMatLab()
 void Client::closeMatLab()
 {
 
-    if (tcpSocket->putChar('c') == false)
+    if (tcpSocket->putChar(closeCommand) == false)
     {
 
         QMessageBox::information(this, tr("Write Error"), tr("Error"));
@@ -106,6 +108,7 @@ void Client::closeMatLab()
     else
     {
         closeBtn->setEnabled(false);
+        statusLabel->setText(tr("MatLab is closing"));
     }
 }
 
@@ -121,21 +124,82 @@ void Client::displayError(QAbstractSocket::SocketError socketError)
 {
     switch (socketError)
     {
-        case QAbstractSocket::RemoteHostClosedError:
-            QMessageBox::information(this, tr("Client Error"), tr("RemoteHostClosedError"));
-            break;
-        case QAbstractSocket::ConnectionRefusedError:
-            QMessageBox::information(this, tr("Client Error"), tr("ConnectionRefuseError"));
-            break;
-        case QAbstractSocket::HostNotFoundError:
-            QMessageBox::information(this, tr("Client Error"), tr("HostNotFoundError"));
-            break;
-        case QAbstractSocket::SocketAccessError:
-            QMessageBox::information(this, tr("Client Error"), tr("SocketAccessError"));
-            break;
-        default:
-            QMessageBox::information(this, tr("Client Error"), tr("unknown error"));
-            break;
+    case QAbstractSocket::ConnectionRefusedError:
+        QMessageBox::information(this, tr("socketError"), tr("ConnectionRefusedError"));
+        break;
+    case QAbstractSocket::RemoteHostClosedError:
+        QMessageBox::information(this, tr("socketError"), tr("RemoteHostClosedError"));
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        QMessageBox::information(this, tr("socketError"), tr("HostNotFoundError"));
+        break;
+    case QAbstractSocket::SocketAccessError:
+        QMessageBox::information(this, tr("socketError"), tr("SocketAccessError"));
+        break;
+    case QAbstractSocket::SocketResourceError:
+        QMessageBox::information(this, tr("socketError"), tr("SocketResourceError"));
+        break;
+    case QAbstractSocket::SocketTimeoutError:
+        QMessageBox::information(this, tr("socketError"), tr("SocketTimeoutError"));
+        break;
+    case QAbstractSocket::DatagramTooLargeError:
+        QMessageBox::information(this, tr("socketError"), tr("DatagramTooLargeError"));
+        break;
+    case QAbstractSocket::NetworkError:
+        QMessageBox::information(this, tr("socketError"), tr("NetworkError"));
+        break;
+    case QAbstractSocket::AddressInUseError:
+        QMessageBox::information(this, tr("socketError"), tr("AddressInUseError"));
+        break;
+    case QAbstractSocket::SocketAddressNotAvailableError:
+        QMessageBox::information(this, tr("socketError"), tr("SocketAddressNotAvailableError"));
+        break;
+    case QAbstractSocket::UnsupportedSocketOperationError:
+        QMessageBox::information(this, tr("socketError"), tr("UnsupportedSocketOperationError"));
+        break;
+    case QAbstractSocket::ProxyAuthenticationRequiredError:
+        QMessageBox::information(this, tr("socketError"), tr("ProxyAuthenticationRequiredError"));
+        break;
+    case QAbstractSocket::SslHandshakeFailedError:
+        QMessageBox::information(this, tr("socketError"), tr("SslHandshakeFailedError"));
+        break;
+    case QAbstractSocket::UnfinishedSocketOperationError:
+        QMessageBox::information(this, tr("socketError"), tr("UnfinishedSocketOperationError"));
+        break;
+    case QAbstractSocket::ProxyConnectionRefusedError:
+        QMessageBox::information(this, tr("socketError"), tr("ProxyConnectionRefusedError"));
+        break;
+    case QAbstractSocket::ProxyConnectionClosedError:
+        QMessageBox::information(this, tr("socketError"), tr("ProxyConnectionClosedError"));
+        break;
+    case QAbstractSocket::ProxyConnectionTimeoutError:
+        QMessageBox::information(this, tr("socketError"), tr("ProxyConnectionTimeoutError"));
+        break;
+    case QAbstractSocket::ProxyNotFoundError:
+        QMessageBox::information(this, tr("socketError"), tr("ProxyNotFoundError"));
+        break;
+    case QAbstractSocket::ProxyProtocolError:
+        QMessageBox::information(this, tr("socketError"), tr("ProxyProtocolError"));
+        break;
+    /*
+    case QAbstractSocket::OperationError:
+        QMessageBox::information(this, tr("socketError"), tr("OperationError"));
+        break;
+    case QAbstractSocket::SslInternalError:
+        QMessageBox::information(this, tr("socketError"), tr("SslInternalError"));
+        break;
+    case QAbstractSocket::SslInvalidUserDataError:
+        QMessageBox::information(this, tr("socketError"), tr("SslInvalidUserDataError"));
+        break;
+    case QAbstractSocket::TemporaryError:
+        QMessageBox::information(this, tr("socketError"), tr("TemporaryError"));
+        break;
+    */
+    case QAbstractSocket::UnknownSocketError:
+        QMessageBox::information(this, tr("socketError"), tr("UnknownSocketError"));
+        break;
+    default:
+        break;
     }
 }
 
@@ -192,7 +256,7 @@ void Client::readServer()
             disconnectBtn->setDefault(true);
             disconnectBtn->setEnabled(true);
             openBtn->setEnabled(true);
-            statusLabel->setText(tr("Status: MatLab has been closed:)"));
+            statusLabel->setText(tr("MatLab has been closed:)"));
             break;
         default:
             break;
