@@ -1,2 +1,2 @@
-const openCommand = 'a'
-const closeCommand = 'b'
+const char openCommand = 'a';
+const char closeCommand = 'b';
