@@ -27,6 +27,7 @@ private slots:
     void disconnectServer();
     void displayError(QAbstractSocket::SocketError socketError);
     void displayState(QAbstractSocket::SocketState socketState);
+    void readServer();
 
 private:
     QLabel *ipLabel;

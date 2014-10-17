@@ -1,4 +1,6 @@
 #include "client.h"
+#include "../../config.h"
+
 #include <QMessageBox>
 
 Client::Client(QWidget *parent)
@@ -11,6 +13,7 @@ Client::Client(QWidget *parent)
 
     connectBtn = new QPushButton(tr("Connect"));
     connectBtn->setEnabled(false);
+
 
     openBtn = new QPushButton(tr("Open"));
     openBtn->setEnabled(false);
@@ -37,6 +40,9 @@ Client::Client(QWidget *parent)
 
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
+            this, SLOT(displayState(QAbstractSocket::SocketState)));
+    connect(tcpSocket, SIGNAL(readyRead()), SLOT(readServer()));
 
     topLayout = new QHBoxLayout;
     topLayout->addWidget(ipLabel);
@@ -62,21 +68,26 @@ Client::Client(QWidget *parent)
 
 void Client::enableConnectBtn()
 {
+    connectBtn->setDefault(true);
     connectBtn->setEnabled(true);
 }
 
 void Client::connectServer()
 {
     tcpSocket->connectToHost(ipLineEdit->text(), portLineEdit->text().toInt());
-    connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-            this, SLOT(displayState(QAbstractSocket::SocketState)));
 }
 
 void Client::openMatLab()
 {
     if (tcpSocket->putChar('a') == false)
-        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    {
 
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        openBtn->setEnabled(false);
+    }
 }
 
 void Client::initMatLab()
@@ -87,11 +98,23 @@ void Client::initMatLab()
 void Client::closeMatLab()
 {
 
+    if (tcpSocket->putChar('c') == false)
+    {
+
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        closeBtn->setEnabled(false);
+    }
 }
 
 void Client::disconnectServer()
 {
-
+    tcpSocket->close();
+    disconnectBtn->setEnabled(false);
+    connectBtn->setDefault(true);
+    connectBtn->setEnabled(true);
 }
 
 void Client::displayError(QAbstractSocket::SocketError socketError)
@@ -122,6 +145,8 @@ void Client::displayState(QAbstractSocket::SocketState socketState)
     {
         case QAbstractSocket::UnconnectedState:
             statusLabel->setText(tr("SocketState: Unconnected"));
+            connectBtn->setDefault(true);
+            connectBtn->setEnabled(true);
             break;
         case QAbstractSocket::HostLookupState:
             statusLabel->setText(tr("SocketState: HostLookUP"));
@@ -131,6 +156,7 @@ void Client::displayState(QAbstractSocket::SocketState socketState)
         case QAbstractSocket::ConnectedState:
             statusLabel->setText(tr("SocketState: Connected"));
             connectBtn->setEnabled(false);
+            openBtn->setDefault(true);
             openBtn->setEnabled(true);
             break;
         case QAbstractSocket::BoundState:
@@ -138,13 +164,39 @@ void Client::displayState(QAbstractSocket::SocketState socketState)
             break;
         case QAbstractSocket::ClosingState:
             statusLabel->setText(tr("SocketStatus: Closing"));
-            connectBtn->setEnabled(true);
             openBtn->setEnabled(false);
             break;
         case QAbstractSocket::ListeningState:
             statusLabel->setText(tr("SocketStatus:: Listening"));
             break;
 
+    }
+}
+
+
+void Client::readServer()
+{
+    char *c = new char;
+    if (tcpSocket->getChar(c) == true)
+    {
+        switch (*c)
+        {
+        case openCommand:
+            openBtn->setEnabled(false);
+            closeBtn->setDefault(true);
+            closeBtn->setEnabled(true);
+            statusLabel->setText(tr("MatLab has been opened:)"));
+            break;
+        case closeCommand:
+            closeBtn->setEnabled(false);
+            disconnectBtn->setDefault(true);
+            disconnectBtn->setEnabled(true);
+            openBtn->setEnabled(true);
+            statusLabel->setText(tr("Status: MatLab has been closed:)"));
+            break;
+        default:
+            break;
+        }
     }
 }
 
