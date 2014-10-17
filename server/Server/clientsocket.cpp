@@ -1,5 +1,6 @@
 #include "clientsocket.h"
 #include "../../config.h"
+#include <QDebug>
 
 ClientSocket::ClientSocket(QObject *parent) :
     QTcpSocket(parent)
@@ -37,7 +38,7 @@ void ClientSocket::openMatLab()
 
 void ClientSocket::closeMatLab()
 {
-    if (engClose(ep))
+    if (engClose(ep) == 0)
     {
         this->putChar(closeCommand);
     }
