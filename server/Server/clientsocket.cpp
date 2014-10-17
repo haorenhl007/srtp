@@ -1,6 +1,5 @@
 #include "clientsocket.h"
-#include <QDebug>
-#include "engine.h"
+#include "../../config.h"
 
 ClientSocket::ClientSocket(QObject *parent) :
     QTcpSocket(parent)
@@ -15,22 +14,31 @@ void ClientSocket::readClient()
     {
         switch (*c)
         {
-            case 'a':
-                openMatLab();
-            case 'b':
-                break;
-            case 'c':
-                break;
-            case 'd':
-                break;
-            default:
-                break;
+        case openCommand:
+            openMatLab();
+            break;
+        case closeCommand:
+            closeMatLab();
+            break;
+        default:
+            break;
         }
     }
 }
 
 void ClientSocket::openMatLab()
 {
-    Engine *ep;
-    ep = engOpen("");
+    if (ep = engOpen(""))
+    {
+        this->putChar(openCommand);
+    }
+
+}
+
+void ClientSocket::closeMatLab()
+{
+    if (engClose(ep))
+    {
+        this->putChar(closeCommand);
+    }
 }

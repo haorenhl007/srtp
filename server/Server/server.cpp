@@ -13,6 +13,7 @@ Server::Server(QWidget *parent)
     statusLabel = new QLabel;
     statusLabel->setText(tr("IP: %1\nPort: %2").arg(ipAddress.toString()).arg(port));
     quitButton = new QPushButton("Quit");
+    quitButton->setDefault(true);
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     tcpServer = new TcpServer;
     tcpServer->listen(ipAddress, port);

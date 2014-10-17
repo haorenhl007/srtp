@@ -22,6 +22,3 @@ HEADERS  += server.h \
 
 INCLUDEPATH += "C:\Program Files\MATLAB\R2014a\extern\include"
 LIBS += -L"C:\Program Files\MATLAB\R2014a\extern\lib\win32\microsoft" -llibeng -llibmat -llibmx
-
-
-LIBS += -L"C:\Program Files\MATLAB\R2014a\extern\lib\win32\lcc" -llibeng -llibmat -llibmx

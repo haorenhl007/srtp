@@ -2,6 +2,7 @@
 #define CLIENTSOCKET_H
 
 #include <QTcpSocket>
+#include "engine.h"
 
 class ClientSocket : public QTcpSocket
 {
@@ -16,6 +17,10 @@ public slots:
 
 private:
     void openMatLab();
+    void closeMatLab();
+
+private:
+    Engine *ep;
 };
 
 #endif // CLIENTSOCKET_H
