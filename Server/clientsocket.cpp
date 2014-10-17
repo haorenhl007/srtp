@@ -1,5 +1,5 @@
 #include "clientsocket.h"
-#include "../../config.h"
+#include "../config.h"
 #include <QDebug>
 
 ClientSocket::ClientSocket(QObject *parent) :

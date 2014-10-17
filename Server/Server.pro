@@ -19,7 +19,7 @@ SOURCES += main.cpp\
 HEADERS  += server.h \
     clientsocket.h \
     tcpserver.h \
-    ../../config.h
+    ../config.h
 
 INCLUDEPATH += "C:\Program Files\MATLAB\R2014a\extern\include"
 LIBS += -L"C:\Program Files\MATLAB\R2014a\extern\lib\win32\microsoft" -llibeng -llibmat -llibmx

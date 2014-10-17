@@ -16,4 +16,4 @@ SOURCES += main.cpp\
         client.cpp
 
 HEADERS  += client.h \
-    ../../config.h
+    ../config.h
