@@ -12,7 +12,10 @@ public:
 signals:
 
 public slots:
+    void readClient();
 
+private:
+    void openMatLab();
 };
 
 #endif // CLIENTSOCKET_H

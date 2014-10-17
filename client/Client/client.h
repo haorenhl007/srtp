@@ -25,6 +25,8 @@ private slots:
     void initMatLab();
     void closeMatLab();
     void disconnectServer();
+    void displayError(QAbstractSocket::SocketError socketError);
+    void displayState(QAbstractSocket::SocketState socketState);
 
 private:
     QLabel *ipLabel;
@@ -36,6 +38,7 @@ private:
     QPushButton *initBtn;
     QPushButton *closeBtn;
     QPushButton *disconnectBtn;
+    QLabel *statusLabel;
     QHBoxLayout *topLayout;
     QHBoxLayout *bottomLayout;
     QVBoxLayout *mainLayout;

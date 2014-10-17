@@ -21,6 +21,7 @@ public:
 private:
     void incomingConnection(int socketId);
     QHostAddress getIPAddress();
+
     QHostAddress ipAddress;
     quint16 port;
     QLabel *statusLabel;
