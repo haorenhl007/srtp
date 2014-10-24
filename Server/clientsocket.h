@@ -18,6 +18,12 @@ public slots:
 private:
     void openMatLab();
     void closeMatLab();
+    void openSystem();
+    void connectSystem();
+    void disconnectSystem();
+    void startSystem();
+    void stopSystem();
+    void closeSystem();
 
 private:
     Engine *ep;

@@ -21,5 +21,5 @@ HEADERS  += server.h \
     tcpserver.h \
     ../config.h
 
-INCLUDEPATH += "C:\Program Files\MATLAB\R2014a\extern\include"
-LIBS += -L"C:\Program Files\MATLAB\R2014a\extern\lib\win32\microsoft" -llibeng -llibmat -llibmx
+INCLUDEPATH += "D:\MATLAB\R2010b\extern\include"
+LIBS += -L"D:\MATLAB\R2010b\extern\lib\win32\microsoft" -llibeng -llibmat -llibmx

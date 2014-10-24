@@ -4,28 +4,53 @@
 #include <QMessageBox>
 
 Client::Client(QWidget *parent)
-    : QDialog(parent)
+    : QWidget(parent)
 {
     ipLabel = new QLabel(tr("Server IP:"));
     ipLineEdit = new QLineEdit;
     portLabel = new QLabel(tr("Port"));
     portLineEdit = new QLineEdit;
-
+    
     connectBtn = new QPushButton(tr("Connect"));
-    connectBtn->setEnabled(false);
+    btnList.append(connectBtn);
+    connectBtn->setEnabled(true);
 
 
     openBtn = new QPushButton(tr("Open"));
-    openBtn->setEnabled(false);
-
-    initBtn = new QPushButton(tr("Init"));
-    initBtn->setEnabled(false);
+    btnList.append(openBtn);
+    openBtn->setEnabled(true);
 
     closeBtn = new QPushButton(tr("Close"));
-    closeBtn->setEnabled(false);
+    btnList.append(closeBtn);
+    closeBtn->setEnabled(true);
 
     disconnectBtn = new QPushButton(tr("Disconnnect"));
-    disconnectBtn->setEnabled(false);
+    btnList.append(disconnectBtn);
+    disconnectBtn->setEnabled(true);
+
+    openSystemBtn = new QPushButton(tr("Open System"));
+    btnList.append(openSystemBtn);
+    openSystemBtn->setEnabled(true);
+
+    connectSystemBtn = new QPushButton(tr("Connect System"));
+    btnList.append(connectSystemBtn);
+    connectSystemBtn->setEnabled(true);
+
+    disconnectSystemBtn = new QPushButton(tr("Disconnect System"));
+    btnList.append(disconnectSystemBtn);
+    disconnectSystemBtn->setEnabled(true);
+
+    startSystemBtn = new QPushButton(tr("Start System"));
+    btnList.append(startSystemBtn);
+    startSystemBtn->setEnabled(true);
+
+    stopSystemBtn = new QPushButton(tr("Stop System"));
+    btnList.append(stopSystemBtn);
+    stopSystemBtn->setEnabled(true);
+
+    closeSystemBtn = new QPushButton(tr("Close System"));
+    btnList.append(closeSystemBtn);
+    closeSystemBtn->setEnabled(true);
 
     tcpSocket = new QTcpSocket;
     statusLabel = new QLabel(tr("SocketState: Unconnected"));
@@ -34,9 +59,15 @@ Client::Client(QWidget *parent)
     connect(portLineEdit, SIGNAL(textChanged(QString)), this, SLOT(enableConnectBtn()));
     connect(connectBtn, SIGNAL(clicked()), this, SLOT(connectServer()));
     connect(openBtn, SIGNAL(clicked()), this, SLOT(openMatLab()));
-    connect(initBtn, SIGNAL(clicked()), this, SLOT(initMatLab()));
     connect(closeBtn, SIGNAL(clicked()), this, SLOT(closeMatLab()));
     connect(disconnectBtn, SIGNAL(clicked()), this, SLOT(disconnectServer()));
+    connect(openSystemBtn, SIGNAL(clicked()), this, SLOT(openSystem()));
+    connect(connectSystemBtn, SIGNAL(clicked()), this, SLOT(connectSystem()));
+    connect(disconnectSystemBtn, SIGNAL(clicked()), this, SLOT(disconnectSystem()));
+    connect(startSystemBtn, SIGNAL(clicked()), this, SLOT(startSystem()));
+    connect(stopSystemBtn, SIGNAL(clicked()), this, SLOT(stopSystme()));
+    connect(closeSystemBtn, SIGNAL(clicked()), this, SLOT(closeSystem()));
+
 
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
@@ -50,15 +81,23 @@ Client::Client(QWidget *parent)
     topLayout->addWidget(portLabel);
     topLayout->addWidget(portLineEdit);
 
+    mediumLayout = new QHBoxLayout;
+    mediumLayout->addWidget(connectBtn);
+    mediumLayout->addWidget(openBtn);
+    mediumLayout->addWidget(closeBtn);
+    mediumLayout->addWidget(disconnectBtn);
+
     bottomLayout = new QHBoxLayout;
-    bottomLayout->addWidget(connectBtn);
-    bottomLayout->addWidget(openBtn);
-    bottomLayout->addWidget(initBtn);
-    bottomLayout->addWidget(closeBtn);
-    bottomLayout->addWidget(disconnectBtn);
+    bottomLayout->addWidget(openSystemBtn);
+    bottomLayout->addWidget(connectSystemBtn);
+    bottomLayout->addWidget(disconnectSystemBtn);
+    bottomLayout->addWidget(startSystemBtn);
+    bottomLayout->addWidget(stopSystemBtn);
+    bottomLayout->addWidget(closeSystemBtn);
 
     mainLayout = new QVBoxLayout;
     mainLayout->addLayout(topLayout);
+    mainLayout->addLayout(mediumLayout);
     mainLayout->addLayout(bottomLayout);
     mainLayout->addWidget(statusLabel);
 
@@ -68,8 +107,31 @@ Client::Client(QWidget *parent)
 
 void Client::enableConnectBtn()
 {
-    connectBtn->setDefault(true);
-    connectBtn->setEnabled(true);
+}
+
+void Client::setBtnStatus(quint16 enableStatus, quint16 defaultStatus)
+{
+    QList<QPushButton*>::const_iterator i = btnList.end() - 1;
+    do
+    {
+        if (enableStatus % 2 == 1)
+        {
+            (*i)->setEnabled(true);
+        }
+        else
+        {
+           (*i)->setEnabled(false);
+        }
+        if (defaultStatus % 2 == 1)
+        {
+            (*i)->setDefault(true);
+        }
+        else
+        {
+            (*i)->setDefault(false);
+        }
+        i = i - 1;
+    } while ((enableStatus /= 2) > 0 || i >= btnList.begin());
 }
 
 void Client::connectServer()
@@ -86,16 +148,10 @@ void Client::openMatLab()
     }
     else
     {
-        openBtn->setEnabled(false);
-        disconnectBtn->setEnabled(false);
         statusLabel->setText(tr("MatLab is starting"));
     }
 }
 
-void Client::initMatLab()
-{
-
-}
 
 void Client::closeMatLab()
 {
@@ -107,7 +163,6 @@ void Client::closeMatLab()
     }
     else
     {
-        closeBtn->setEnabled(false);
         statusLabel->setText(tr("MatLab is closing"));
     }
 }
@@ -115,10 +170,85 @@ void Client::closeMatLab()
 void Client::disconnectServer()
 {
     tcpSocket->close();
-    disconnectBtn->setEnabled(false);
-    connectBtn->setDefault(true);
-    connectBtn->setEnabled(true);
 }
+
+void Client::openSystem()
+{
+    if (tcpSocket->putChar(openSystemCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        statusLabel->setText(tr("System is opening"));
+    }
+}
+
+void Client::connectSystem()
+{
+    if (tcpSocket->putChar(connectSystemCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        statusLabel->setText(tr("Connecting to System"));
+    }
+
+}
+
+void Client::disconnectSystem()
+{
+    if (tcpSocket->putChar(disconnectSystemCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        statusLabel->setText(tr("Disconnecting to system"));
+    }
+
+}
+
+void Client::startSystem()
+{
+    if (tcpSocket->putChar(startSystemCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        statusLabel->setText(tr("System is strarting"));
+    }
+
+}
+
+void Client::stopSystme()
+{
+    if (tcpSocket->putChar(stopSystemCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        statusLabel->setText(tr("System is stopping"));
+    }
+
+}
+
+void Client::closeSystem()
+{
+    if (tcpSocket->putChar(closeSystemCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        statusLabel->setText(tr("System is closing"));
+    }
+
+}
+
 
 void Client::displayError(QAbstractSocket::SocketError socketError)
 {
@@ -209,26 +339,21 @@ void Client::displayState(QAbstractSocket::SocketState socketState)
     {
         case QAbstractSocket::UnconnectedState:
             statusLabel->setText(tr("SocketState: Unconnected"));
-            connectBtn->setDefault(true);
-            connectBtn->setEnabled(true);
             break;
         case QAbstractSocket::HostLookupState:
             statusLabel->setText(tr("SocketState: HostLookUP"));
             break;
         case QAbstractSocket::ConnectingState:
             statusLabel->setText(tr("SocketState: Connecting"));
+            break;
         case QAbstractSocket::ConnectedState:
             statusLabel->setText(tr("SocketState: Connected"));
-            connectBtn->setEnabled(false);
-            openBtn->setDefault(true);
-            openBtn->setEnabled(true);
             break;
         case QAbstractSocket::BoundState:
             statusLabel->setText(tr("SocketStatus: Bound"));
             break;
         case QAbstractSocket::ClosingState:
             statusLabel->setText(tr("SocketStatus: Closing"));
-            openBtn->setEnabled(false);
             break;
         case QAbstractSocket::ListeningState:
             statusLabel->setText(tr("SocketStatus:: Listening"));
@@ -246,17 +371,28 @@ void Client::readServer()
         switch (*c)
         {
         case openCommand:
-            openBtn->setEnabled(false);
-            closeBtn->setDefault(true);
-            closeBtn->setEnabled(true);
             statusLabel->setText(tr("MatLab has been opened:)"));
             break;
         case closeCommand:
-            closeBtn->setEnabled(false);
-            disconnectBtn->setDefault(true);
-            disconnectBtn->setEnabled(true);
-            openBtn->setEnabled(true);
             statusLabel->setText(tr("MatLab has been closed:)"));
+            break;
+        case openSystemCommand:
+            statusLabel->setText(tr("System has been opened"));
+            break;
+        case connectSystemCommand:
+            statusLabel->setText(tr("System has been connected"));
+            break;
+        case disconnectSystemCommand:
+            statusLabel->setText(tr("System has been disconnected"));
+            break;
+        case startSystemCommand:
+            statusLabel->setText(tr("System has been started"));
+            break;
+        case stopSystemCommand:
+            statusLabel->setText(tr("System has been stopped"));
+            break;
+        case closeSystemCommand:
+            statusLabel->setText(tr("System has been closed"));
             break;
         default:
             break;

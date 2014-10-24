@@ -21,6 +21,24 @@ void ClientSocket::readClient()
         case closeCommand:
             closeMatLab();
             break;
+        case openSystemCommand:
+            openSystem();
+            break;
+        case connectSystemCommand:
+            connectSystem();
+            break;
+        case disconnectSystemCommand:
+            disconnectSystem();
+            break;
+        case startSystemCommand:
+            startSystem();
+            break;
+        case stopSystemCommand:
+            stopSystem();
+            break;
+        case closeSystemCommand:
+            closeSystem();
+            break;
         default:
             break;
         }
@@ -38,8 +56,42 @@ void ClientSocket::openMatLab()
 
 void ClientSocket::closeMatLab()
 {
-    if (engClose(ep) == 0)
-    {
-        this->putChar(closeCommand);
-    }
+    engClose(ep);
+    this->putChar(closeCommand);
+}
+
+void ClientSocket::openSystem()
+{
+    engEvalString(ep, CDWORKDIRECTORY);
+    engEvalString(ep, OPENSYSTEM);
+    this->putChar(openSystemCommand);
+}
+
+void ClientSocket::connectSystem()
+{
+    engEvalString(ep, CONNECTSYSTEM);
+    this->putChar(connectSystemCommand);
+}
+
+void ClientSocket::disconnectSystem()
+{
+    engEvalString(ep, DISCONNECTSYSTEM);
+    this->putChar(connectSystemCommand);
+}
+
+void ClientSocket::startSystem()
+{
+    engEvalString(ep, STARTSYSTEM);
+    this->putChar(startSystemCommand);
+}
+void ClientSocket::stopSystem()
+{
+    engEvalString(ep, STOPSYSTEM);
+    this->putChar(stopSystemCommand);
+}
+
+void ClientSocket::closeSystem()
+{
+    engEvalString(ep, CLOSESYSTEM);
+    this->putChar(stopSystemCommand);
 }

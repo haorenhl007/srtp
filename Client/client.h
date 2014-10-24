@@ -9,8 +9,9 @@
 #include <QVBoxLayout>
 #include <QTcpSocket>
 #include <QString>
+#include <QList>
 
-class Client : public QDialog
+class Client : public QWidget
 {
     Q_OBJECT
 
@@ -20,11 +21,18 @@ public:
 
 private slots:
     void enableConnectBtn();
+    void setBtnStatus(quint16 enableStatus, quint16 defaultStatus);
+
     void connectServer();
     void openMatLab();
-    void initMatLab();
     void closeMatLab();
     void disconnectServer();
+    void openSystem();
+    void connectSystem();
+    void disconnectSystem();
+    void startSystem();
+    void stopSystme();
+    void closeSystem();
     void displayError(QAbstractSocket::SocketError socketError);
     void displayState(QAbstractSocket::SocketState socketState);
     void readServer();
@@ -34,13 +42,20 @@ private:
     QLineEdit *ipLineEdit;
     QLabel *portLabel;
     QLineEdit *portLineEdit;
+    QList<QPushButton*> btnList;
     QPushButton *connectBtn;
     QPushButton *openBtn;
-    QPushButton *initBtn;
     QPushButton *closeBtn;
     QPushButton *disconnectBtn;
+    QPushButton *openSystemBtn;
+    QPushButton *connectSystemBtn;
+    QPushButton *disconnectSystemBtn;
+    QPushButton *startSystemBtn;
+    QPushButton *stopSystemBtn;
+    QPushButton *closeSystemBtn;
     QLabel *statusLabel;
     QHBoxLayout *topLayout;
+    QHBoxLayout *mediumLayout;
     QHBoxLayout *bottomLayout;
     QVBoxLayout *mainLayout;
 
