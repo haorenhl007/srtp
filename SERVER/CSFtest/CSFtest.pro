@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += testlib network
+QT       += testlib network widgets
 
 CONFIG += c++11
 
@@ -22,3 +22,9 @@ unix:!macx: LIBS += -L$$OUT_PWD/../CaptureSendFrame/ -lCaptureSendFrame
 
 INCLUDEPATH += $$PWD/../CaptureSendFrame
 DEPENDPATH += $$PWD/../CaptureSendFrame
+
+
+unix:!macx: LIBS += -L$$OUT_PWD/../../Config/ -lConfig
+
+INCLUDEPATH += $$PWD/../../Config
+DEPENDPATH += $$PWD/../../Config

@@ -1,6 +1,8 @@
 #include "capturesendframe.h"
 #include <config.h>
-
+#include <QImage>
+#include <QByteArray>
+#include <QBuffer>
 
 CaptureSendFrame::CaptureSendFrame(QObject *parent, int buffersize)
 {
@@ -51,13 +53,20 @@ SendThread::SendThread(CaptureSendFrame *csf)
 
 void SendThread::run()
 {
-    namedWindow("test", WINDOW_AUTOSIZE);
+    //namedWindow("test", WINDOW_AUTOSIZE);
+    Mat m;
+    QByteArray ba;
+    QBuffer buffer(&ba);
     while (true)
     {
         this->csf->send->acquire();
         if (this->csf->mat_queue->isEmpty())
             continue;
-        imshow("test", this->csf->mat_queue->dequeue());
+        m = this->csf->mat_queue->dequeue();
+        QImage img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
+        img.save(&buffer, "PNG");
+        this->write(ba);
+        //imshow("test", this->csf->mat_queue->dequeue());
         this->csf->capture->release();
         waitKey(30);
     }

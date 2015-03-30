@@ -1,31 +1,26 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-03-26T15:31:28
+# Project created by QtCreator 2015-03-30T16:56:11
 #
 #-------------------------------------------------
 
 QT += network widgets
 
+TARGET = TransferCmd
+TEMPLATE = lib
 CONFIG += c++11
 
-TARGET = CaptureSendFrame
-TEMPLATE = lib
+DEFINES += TRANSFERCMD_LIBRARY
 
-DEFINES += CAPTURESENDFRAME_LIBRARY
+SOURCES += transfercmd.cpp
 
-SOURCES += capturesendframe.cpp
-
-HEADERS += capturesendframe.h\
-        capturesendframe_global.h
+HEADERS += transfercmd.h\
+        transfercmd_global.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
-
-
-unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += opencv
 
 
 unix:!macx: LIBS += -L$$OUT_PWD/../../Config/ -lConfig

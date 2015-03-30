@@ -30,16 +30,6 @@
          <widget class="QLineEdit" name="ipLineEdit"/>
         </item>
         <item>
-         <widget class="QLabel" name="portLabel">
-          <property name="text">
-           <string>Port</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="portLineEdit"/>
-        </item>
-        <item>
          <widget class="QPushButton" name="connectBtn">
           <property name="text">
            <string>Connect</string>
@@ -193,7 +183,7 @@
      <x>0</x>
      <y>0</y>
      <width>769</width>
-     <height>23</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
