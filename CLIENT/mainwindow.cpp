@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     tcpSocket = new QTcpSocket;
+    udpSocket = new QUdpSocket;
     btnList.append(ui->connectBtn);
     btnList.append(ui->disconnectBtn);
     btnList.append(ui->openSystemBtn);
@@ -24,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
             this, SLOT(displayState(QAbstractSocket::SocketState)));
     connect(tcpSocket, SIGNAL(readyRead()), SLOT(readServer()));
+
+    //ui->frameLabel->setPixmap(QPixmap::fromImage(QImage("C:/Users/Administrator/Desktop/SRTP_OPENCV/test.jpg")));
 }
 
 MainWindow::~MainWindow()
@@ -302,4 +305,35 @@ void MainWindow::readServer()
             break;
         }
     }
+}
+
+
+ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize)
+{
+    this->img_queue = new QQueue<QImage>();
+    this->receive = new QSemaphore(buffersize);
+    this->display = new QSemaphore(0);
+
+}
+
+ReceiveThread::ReceiveThread(ReceiveDisplayFrame *rdf)
+{
+    this->rdf = rdf;
+}
+
+void ReceiveThread::run()
+{
+
+}
+
+
+
+DisplayThread::DisplayThread(ReceiveDisplayFrame *rdf)
+{
+    this->rdf = rdf;
+}
+
+void DisplayThread::run()
+{
+
 }

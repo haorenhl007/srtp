@@ -1,0 +1,12 @@
+#ifndef HOSTINFO_GLOBAL_H
+#define HOSTINFO_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(HOSTINFO_LIBRARY)
+#  define HOSTINFOSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define HOSTINFOSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // HOSTINFO_GLOBAL_H

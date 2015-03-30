@@ -4,8 +4,10 @@
 #
 #-------------------------------------------------
 
-CONFIG += c++11
 QT += network
+
+CONFIG += c++11
+
 TARGET = CaptureSendFrame
 TEMPLATE = lib
 
@@ -24,3 +26,9 @@ unix {
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += opencv
+
+
+unix:!macx: LIBS += -L$$OUT_PWD/../../Config/ -lConfig
+
+INCLUDEPATH += $$PWD/../../Config
+DEPENDPATH += $$PWD/../../Config

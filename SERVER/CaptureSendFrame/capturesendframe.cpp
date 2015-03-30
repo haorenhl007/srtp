@@ -1,7 +1,8 @@
 #include "capturesendframe.h"
+#include <config.h>
 
 
-CaptureSendFrame::CaptureSendFrame(int buffersize)
+CaptureSendFrame::CaptureSendFrame(QObject *parent, int buffersize)
 {
     this->mat_queue = new QQueue<Mat>();
     this->capture = new QSemaphore(buffersize);
@@ -17,9 +18,9 @@ CaptureThread::CaptureThread(CaptureSendFrame *csf)
 void CaptureThread::run()
 {
     Mat m;
-    VideoCapture cap(1);
-    cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+    VideoCapture cap(0);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
+    //cap.set(CV_CAP_PROP_FRAME_WIDTH, 1024);
+    //cap.set(CV_CAP_PROP_FRAME_HEIGHT, 960);
     if (cap.isOpened())
     {
         while(true)
@@ -28,7 +29,6 @@ void CaptureThread::run()
             if (this->csf->capture->tryAcquire())
             {
                 this->csf->mat_queue->enqueue(m);
-                printf("en: %d\n", this->csf->mat_queue->length());
                 this->csf->send->release();
             }
         }
@@ -41,6 +41,11 @@ void CaptureThread::run()
 SendThread::SendThread(CaptureSendFrame *csf)
 {
     this->csf = csf;
+    QHostAddress ip = IPs().first();
+    if (!ip.isNull())
+    {
+        this->bind(ip, udp_port);
+    }
 }
 
 
@@ -53,7 +58,6 @@ void SendThread::run()
         if (this->csf->mat_queue->isEmpty())
             continue;
         imshow("test", this->csf->mat_queue->dequeue());
-        printf("de: %d\n", this->csf->mat_queue->length());
         this->csf->capture->release();
         waitKey(30);
     }

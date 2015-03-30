@@ -24,7 +24,6 @@ CSFtestTest::CSFtestTest()
     SendThread *sendthr = new SendThread(csf);
     capthr->start();
     sendthr->start();
-    printf("请输入c=");
     char c;
     cin >> c;
 }

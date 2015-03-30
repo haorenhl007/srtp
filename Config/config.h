@@ -1,7 +1,11 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef CONFIG
+#define CONFIG
 
-#include <QString>
+#include <QList>
+#include <QHostAddress>
+#include <QNetworkInterface>
+#include <QAbstractSocket>
+
 
 const char openCommand = 'a';
 const char closeCommand = 'b';
@@ -20,4 +24,12 @@ const char * STOPSYSTEM = "set_param('L1FIPLQR', 'SimulationCommand', 'stop')";
 const char * CLOSESYSTEM = "close_system('D:\\MATLAB\\R2010b\\toolbox\\GoogolTech\\InvertedPendulum\\Flexible-Joint Inverted Pendulum\\L1FIPLQR.mdl')";
 const char * CDWORKDIRECTORY = "cd D:\\srtp-master\\build";
 
-#endif
+
+QList<QHostAddress> IPs();
+
+
+const int tcp_port = 6000;
+const int udp_port = 8000;
+
+#endif // CONFIG
+

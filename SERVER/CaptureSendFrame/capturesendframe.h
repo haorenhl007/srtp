@@ -12,12 +12,14 @@
 
 using namespace cv;
 
-class CAPTURESENDFRAMESHARED_EXPORT CaptureSendFrame
+class CAPTURESENDFRAMESHARED_EXPORT CaptureSendFrame: public QObject
 {
+    Q_OBJECT
+
     friend class CaptureThread;
     friend class SendThread;
 public:
-    CaptureSendFrame(int buffersize=20);
+    CaptureSendFrame(QObject *parent=0, int buffersize=100);
 
 private:
     QQueue<Mat> *mat_queue;

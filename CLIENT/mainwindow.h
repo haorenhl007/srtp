@@ -4,8 +4,13 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTcpSocket>
+#include <QUdpSocket>
 #include <QString>
 #include <QList>
+#include <QThread>
+#include <QQueue>
+#include <QSemaphore>
+#include <QImage>
 
 namespace Ui {
 class MainWindow;
@@ -53,6 +58,48 @@ private:
     Ui::MainWindow *ui;
     QList<QPushButton*> btnList;
     QTcpSocket *tcpSocket;
+    QUdpSocket *udpSocket;
+};
+
+class ReceiveDisplayFrame: public QObject
+{
+    Q_OBJECT
+
+    friend class ReceiveThread;
+    friend class DisplayThread;
+public:
+    ReceiveDisplayFrame(QObject *parent=0, int buffersize=100);
+
+private:
+    QQueue<QImage> *img_queue;
+    QSemaphore *receive;
+    QSemaphore *display;
+};
+
+class ReceiveThread: public QThread, public QUdpSocket
+{
+public:
+    ReceiveThread(ReceiveDisplayFrame *rdf = nullptr);
+
+protected:
+    void run();
+
+private:
+    ReceiveDisplayFrame *rdf;
+
+};
+
+class DisplayThread: public QThread
+{
+public:
+    DisplayThread(ReceiveDisplayFrame *rdf = nullptr);
+
+protected:
+    void run();
+
+private:
+    ReceiveDisplayFrame *rdf;
+
 };
 
 #endif // MAINWINDOW_H

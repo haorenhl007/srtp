@@ -67,10 +67,10 @@
          <widget class="QLabel" name="frameLabel">
           <property name="geometry">
            <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>54</width>
-            <height>12</height>
+            <x>90</x>
+            <y>40</y>
+            <width>351</width>
+            <height>191</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -80,7 +80,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>Display Video</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -94,10 +94,10 @@
          <widget class="QLabel" name="waveLabel">
           <property name="geometry">
            <rect>
-            <x>50</x>
-            <y>30</y>
-            <width>54</width>
-            <height>12</height>
+            <x>160</x>
+            <y>60</y>
+            <width>171</width>
+            <height>141</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -107,7 +107,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>Display Wave</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
