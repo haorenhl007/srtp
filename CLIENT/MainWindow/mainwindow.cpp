@@ -64,13 +64,13 @@ void MainWindow::on_connectBtn_clicked()
 {
 
     this->tfc->connectToHost(ui->ipLineEdit->text(), tcp_port);
-    this->rec_thr->connectToHost(ui->ipLineEdit->text(), udp_port);
+    this->rdf->rec_thr->udpsocket->connectToHost(ui->ipLineEdit->text(), udp_port);
 }
 
 void MainWindow::on_disconnectBtn_clicked()
 {
    this->tfc->close();
-   this->rec_thr->close();
+   this->rdf->rec_thr->udpsocket->close();
 }
 
 void MainWindow::on_openSystemBtn_clicked()

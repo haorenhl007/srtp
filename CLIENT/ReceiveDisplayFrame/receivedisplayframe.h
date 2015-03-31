@@ -24,7 +24,7 @@ private:
     QSemaphore *display;
 };
 
-class ReceiveThread: public QThread, public QUdpSocket
+class ReceiveThread: public QThread
 {
     Q_OBJECT
 public:
@@ -38,8 +38,11 @@ private slots:
     void socket_state(QAbstractSocket::SocketState socketState);
 
 private:
+
     ReceiveDisplayFrame *rdf;
     QLabel *label;
+public:
+    QUdpSocket *udpsocket;
 
 };
 
@@ -72,7 +75,7 @@ private slots:
     void start_threads();
 
 
-private:
+public://这坨糟代码, 不改成公有不能访问呀
     ReceiveDisplayFrame *rdf;
     ReceiveThread *rec_thr;
     DisplayThread *dis_thr;
