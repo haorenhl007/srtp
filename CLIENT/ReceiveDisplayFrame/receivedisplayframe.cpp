@@ -14,6 +14,10 @@ ReceiveThread::ReceiveThread(ReceiveDisplayFrame *rdf, DisplayThread *dis_thr, Q
     this->dis_thr = dis_thr;
     this->label = label;
     this->udp_socket = new QUdpSocket();
+    connect(this->udp_socket, SIGNAL(error(QAbstractSocket::SocketError)),//这些显示状态的代码重复了, 可以用一个类继承QAbstractSocket, 然后RDF和TransferCmd在继承这个类, 但是既然它们两个已经作为单独的lib了, 再整理不麻烦了.
+            this, SLOT(socket_error(QAbstractSocket::SocketError)));
+    connect(this->udp_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
+            this, SLOT(socket_state(QAbstractSocket::SocketState)));
 }
 
 
