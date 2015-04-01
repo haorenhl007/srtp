@@ -40,7 +40,9 @@ private:
     Ui::MainWindow *ui;
     QList<QPushButton*> btnList;
 
-    RDF *rdf;
+    ReceiveDisplayFrame *rdf;
+    ReceiveThread *rec_thr;
+    DisplayThread *dis_thr;
     TransferCmd *tfc;
 };
 

@@ -24,27 +24,6 @@ private:
     QSemaphore *display;
 };
 
-class ReceiveThread: public QThread
-{
-    Q_OBJECT
-public:
-    ReceiveThread(ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
-
-protected:
-    void run();
-
-private slots:
-    void socket_error(QAbstractSocket::SocketError socketError);
-    void socket_state(QAbstractSocket::SocketState socketState);
-
-private:
-
-    ReceiveDisplayFrame *rdf;
-    QLabel *label;
-public:
-    QUdpSocket *udpsocket;
-
-};
 
 class DisplayThread: public QThread
 {
@@ -64,23 +43,34 @@ private:
 
 };
 
-class RDF: public QObject//把上面三个类打包到一起. 作为与MainWindow交换信息的接口
+
+
+class ReceiveThread: public QThread
 {
     Q_OBJECT
+public:
+    ReceiveThread(ReceiveDisplayFrame *rdf = nullptr, DisplayThread *dis_thr=nullptr, QLabel *label = nullptr);
 
 public:
-    RDF(QLabel *label = nullptr);
+    QUdpSocket *udp_socket;
+
+protected:
+    void run();
 
 private slots:
-    void start_threads();
+    void socket_error(QAbstractSocket::SocketError socketError);
+    void socket_state(QAbstractSocket::SocketState socketState);
 
+private:
+    void start();
 
-public://这坨糟代码, 不改成公有不能访问呀
+private:
     ReceiveDisplayFrame *rdf;
-    ReceiveThread *rec_thr;
     DisplayThread *dis_thr;
+    QLabel *label;
 
 };
+
 
 
 #endif // RECEIVEDISPLAYFRAME_H

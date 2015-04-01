@@ -9,7 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->rdf = new RDF(this->ui->frameLabel);
+    this->rdf = new ReceiveDisplayFrame();
+    this->dis_thr = new DisplayThread(this->rdf, this->ui->statusLabel);
+    this->rec_thr = new ReceiveThread(this->rdf, this->dis_thr, this->ui->statusLabel);
     this->tfc = new TransferCmd(this->ui->statusLabel);
 
     btnList.append(ui->connectBtn);
@@ -22,8 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     btnList.append(ui->closeSystemBtn);
 
     connect(ui->ipLineEdit, SIGNAL(textChanged(QString)), this, SLOT(enableConnectBtn()));
+    connect(this->rec_thr->udp_socket, SIGNAL(connected()), this->rec_thr, SLOT(start()));
+    connect(this->rec_thr->udp_socket, SIGNAL(error(QAbstractSocket::SocketError)),//这些显示状态的代码重复了, 可以用一个类继承QAbstractSocket, 然后RDF和TransferCmd在继承这个类, 但是既然它们两个已经作为单独的lib了, 再整理不麻烦了.
+            this->rec_thr->udp_socket, SLOT(socket_error(QAbstractSocket::SocketError)));
+    connect(this->rec_thr->udp_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
+            this->rec_thr->udp_socket, SLOT(socket_state(QAbstractSocket::SocketState)));
 
-    //ui->frameLabel->setPixmap(QPixmap::fromImage(QImage("C:/Users/Administrator/Desktop/SRTP_OPENCV/test.jpg")));
 }
 
 MainWindow::~MainWindow()
@@ -64,13 +70,13 @@ void MainWindow::on_connectBtn_clicked()
 {
 
     this->tfc->connectToHost(ui->ipLineEdit->text(), tcp_port);
-    this->rdf->rec_thr->udpsocket->connectToHost(ui->ipLineEdit->text(), udp_port);
+    this->rec_thr->udp_socket->connectToHost(ui->ipLineEdit->text(), udp_port);
 }
 
 void MainWindow::on_disconnectBtn_clicked()
 {
    this->tfc->close();
-   this->rdf->rec_thr->udpsocket->close();
+   this->rec_thr->udp_socket->close();
 }
 
 void MainWindow::on_openSystemBtn_clicked()

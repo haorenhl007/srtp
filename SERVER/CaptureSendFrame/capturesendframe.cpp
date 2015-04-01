@@ -40,13 +40,15 @@ void CaptureThread::run()
 }
 
 
-SendThread::SendThread(CaptureSendFrame *csf)
+SendThread::SendThread(CaptureSendFrame *csf, CaptureThread *cap_thr)
 {
     this->csf = csf;
+    this->cap_thr = cap_thr;
+    this->udp_socket = new QUdpSocket;
     QHostAddress ip = IPs().first();
     if (!ip.isNull())
     {
-        this->bind(ip, udp_port);
+        this->udp_socket->bind(ip, udp_port);
     }
 }
 
@@ -65,10 +67,15 @@ void SendThread::run()
         m = this->csf->mat_queue->dequeue();
         QImage img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
         img.save(&buffer, "PNG");
-        this->write(ba);
+        this->udp_socket->write(ba);
         //imshow("test", this->csf->mat_queue->dequeue());
         this->csf->capture->release();
         waitKey(30);
     }
 }
 
+void SendThread::start()
+{
+    this->start();
+    this->cap_thr->start();
+}

@@ -40,16 +40,21 @@ private:
     CaptureSendFrame *csf;
 };
 
-class SendThread: public QThread, public QUdpSocket
+class SendThread: public QThread
 {
 public:
-    SendThread(CaptureSendFrame* csf=nullptr);
+    SendThread(CaptureSendFrame* csf=nullptr, CaptureThread *cap_thr=nullptr);
+    void start();
+
+public:
+    QUdpSocket *udp_socket;
 
 protected:
     void run();
 
 private:
     CaptureSendFrame *csf;
+    CaptureThread *cap_thr;
 };
 
 #endif // CAPTURESENDFRAME_H

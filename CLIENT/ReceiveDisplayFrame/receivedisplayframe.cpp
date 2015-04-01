@@ -8,27 +8,34 @@ ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize)
     this->display = new QSemaphore(0);
 }
 
-ReceiveThread::ReceiveThread(ReceiveDisplayFrame *rdf, QLabel *label)
+ReceiveThread::ReceiveThread(ReceiveDisplayFrame *rdf, DisplayThread *dis_thr, QLabel *label)
 {
     this->rdf = rdf;
+    this->dis_thr = dis_thr;
     this->label = label;
-    this->udpsocket = new QUdpSocket();
+    this->udp_socket = new QUdpSocket();
 }
 
 
 void ReceiveThread::run()
 {
     QByteArray ba;
-    while (qint64 size = this->udpsocket->pendingDatagramSize())
+    while (qint64 size = this->udp_socket->pendingDatagramSize())
     {
         ba.resize(size);
-        ba = this->udpsocket->read(size);
+        ba = this->udp_socket->read(size);
         if (this->rdf->receive->tryAcquire())
         {
             this->rdf->img_queue->enqueue(QImage::fromData(ba, "PNG"));
             this->rdf->display->release();
         }
     }
+}
+
+void ReceiveThread::start()
+{
+    this->start();
+    this->dis_thr->start();
 }
 
 void ReceiveThread::socket_error(QAbstractSocket::SocketError socketError)
@@ -160,24 +167,4 @@ void DisplayThread::run()
         }
         this->label->setPixmap(QPixmap::fromImage(this->image));
     }
-}
-
-
-
-RDF::RDF(QLabel *label)
-{
-    this->rdf = new ReceiveDisplayFrame();
-    this->rec_thr = new ReceiveThread(rdf, label);
-    this->dis_thr = new DisplayThread(rdf);
-    connect(this->rec_thr->udpsocket, SIGNAL(connected()), SLOT(start_threads()));
-}
-
-void RDF::start_threads()
-{
-    this->rec_thr->start();
-    this->dis_thr->start();
-    connect(this, SIGNAL(error(QAbstractSocket::SocketError)),//这些显示状态的代码重复了, 可以用一个类继承QAbstractSocket, 然后RDF和TransferCmd在继承这个类, 但是既然它们两个已经作为单独的lib了, 再整理不麻烦了.
-            this, SLOT(socket_error(QAbstractSocket::SocketError)));
-    connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-            this, SLOT(socket_state(QAbstractSocket::SocketState)));
 }

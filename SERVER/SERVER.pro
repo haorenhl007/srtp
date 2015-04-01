@@ -4,4 +4,5 @@ SUBDIRS += \
     CaptureSendFrame \
     CSFtest \
     TransferCmd \
-    TFCtest
+    TFCtest \
+    MainWindow
