@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->ipLineEdit, SIGNAL(textChanged(QString)), this, SLOT(enableConnectBtn()));
     connect(this->rec_thr->udp_socket, SIGNAL(connected()), this->rec_thr, SLOT(start()));
+    connect(this->rec_thr->udp_socket, SIGNAL(disconnected()), this->rec_thr, SLOT(quit()));
+    connect(this->tfc, SIGNAL(connected()), this->tfc, SLOT(quit()));
     connect(this->rec_thr->udp_socket, SIGNAL(error(QAbstractSocket::SocketError)),//这些显示状态的代码重复了, 可以用一个类继承QAbstractSocket, 然后RDF和TransferCmd在继承这个类, 但是既然它们两个已经作为单独的lib了, 再整理不麻烦了.
             this->rec_thr->udp_socket, SLOT(socket_error(QAbstractSocket::SocketError)));
     connect(this->rec_thr->udp_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
