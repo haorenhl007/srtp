@@ -34,6 +34,7 @@ else:unix: LIBS += -L$$OUT_PWD/../TransferCmd/ -lTransferCmd
 INCLUDEPATH += $$PWD/../TransferCmd
 DEPENDPATH += $$PWD/../TransferCmd
 
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../Config/release/ -lConfig
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../Config/debug/ -lConfig
 else:unix: LIBS += -L$$OUT_PWD/../../Config/ -lConfig

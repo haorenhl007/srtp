@@ -1,11 +1,12 @@
-#ifndef CONFIG
-#define CONFIG
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#include "config_global.h"
 
 #include <QList>
 #include <QHostAddress>
 #include <QNetworkInterface>
 #include <QAbstractSocket>
-
 
 const char openCommand = 'a';
 const char closeCommand = 'b';
@@ -31,5 +32,11 @@ QList<QHostAddress> IPs();
 const int tcp_port = 6000;
 const int udp_port = 8000;
 
-#endif // CONFIG
+class CONFIGSHARED_EXPORT Config
+{
 
+public:
+    Config();
+};
+
+#endif // CONFIG_H

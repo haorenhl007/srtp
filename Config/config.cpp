@@ -13,3 +13,7 @@ QList<QHostAddress> IPs()
     }
     return r;
 }
+
+Config::Config()
+{
+}
