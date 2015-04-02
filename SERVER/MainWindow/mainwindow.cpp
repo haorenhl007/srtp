@@ -1,5 +1,9 @@
 #include "mainwindow.h"
+#include <config.h>
 #include "ui_mainwindow.h"
+#include <QHostAddress>
+#include <QHostInfo>
+#include <QList>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,9 +15,21 @@ MainWindow::MainWindow(QWidget *parent) :
     this->send_thr = new SendThread(this->csf, this->cap_thr);
     this->tfc = new TransferCmd();
 
-    connect(this->send_thr, SIGNAL(connected()), this->send_thr, SLOT(start()));
-    connect(this->send_thr, SIGNAL(disconnected()), this->send_thr, SLOT(quit()));
-    connect(this->send_thr, SIGNAL(disconnected()), this->cap_thr, SLOT(quit()));
+    QList<QHostAddress> list(IPs());
+    QList<QHostAddress>::const_iterator iter = list.begin();
+    QString str("Status:\n\n\tIP: ");
+    while (iter != list.end())
+    {
+        str += (*iter).toString();
+        str += QString("\n\t");
+        iter++;
+    }
+    this->ui->label->setText(str);
+
+
+    connect(this->send_thr->udp_socket, SIGNAL(connected()), this->send_thr, SLOT(start()));
+    connect(this->send_thr->udp_socket, SIGNAL(disconnected()), this->send_thr, SLOT(quit()));
+    connect(this->send_thr->udp_socket, SIGNAL(disconnected()), this->cap_thr, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
