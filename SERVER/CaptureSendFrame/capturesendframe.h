@@ -7,8 +7,13 @@
 #include <QUdpSocket>
 #include <QQueue>
 #include <QSemaphore>
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
+
+#ifdef _WIN32
+    #include <opencv2/opencv.hpp>
+#else
+    #include <opencv2/opencv.hpp>
+    #include <opencv2/highgui/highgui.hpp>
+
 
 using namespace cv;
 
@@ -28,7 +33,7 @@ private:
 
 };
 
-class CaptureThread: public QThread
+class CAPTURESENDFRAMESHARED_EXPORT CaptureThread: public QThread
 {
 public:
     CaptureThread(CaptureSendFrame *csf=nullptr);
@@ -40,7 +45,7 @@ private:
     CaptureSendFrame *csf;
 };
 
-class SendThread: public QThread
+class CAPTURESENDFRAMESHARED_EXPORT SendThread: public QThread
 {
 public:
     SendThread(CaptureSendFrame* csf=nullptr, CaptureThread *cap_thr=nullptr);

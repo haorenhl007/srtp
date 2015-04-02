@@ -25,12 +25,11 @@ private:
 };
 
 
-class DisplayThread: public QThread
+class RECEIVEDISPLAYFRAMESHARED_EXPORT DisplayThread: public QThread
 {
     Q_OBJECT
 public:
     DisplayThread(ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
-
 
 protected:
     void run();
@@ -45,13 +44,11 @@ private:
 
 
 
-class ReceiveThread: public QThread
+class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveThread: public QThread
 {
     Q_OBJECT
 public:
     ReceiveThread(ReceiveDisplayFrame *rdf = nullptr, DisplayThread *dis_thr=nullptr, QLabel *label = nullptr);
-
-public:
     QUdpSocket *udp_socket;
 
 protected:
@@ -64,13 +61,10 @@ private slots:
 private:
     void start();
 
-private:
     ReceiveDisplayFrame *rdf;
     DisplayThread *dis_thr;
     QLabel *label;
 
 };
-
-
 
 #endif // RECEIVEDISPLAYFRAME_H

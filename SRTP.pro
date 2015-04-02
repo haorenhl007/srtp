@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    SERVER \
     CLIENT \
+    SERVER \
     Config

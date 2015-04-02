@@ -26,7 +26,7 @@ const char * CLOSESYSTEM = "close_system('D:\\MATLAB\\R2010b\\toolbox\\GoogolTec
 const char * CDWORKDIRECTORY = "cd D:\\srtp-master\\build";
 
 
-QList<QHostAddress> IPs();
+QList<QHostAddress> CONFIGSHARED_EXPORT IPs();
 
 
 const int tcp_port = 6000;
