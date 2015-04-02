@@ -1,19 +1,23 @@
 #include "receivedisplayframe.h"
+#include <config.h>
 #include <QMessageBox>
 
-ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize)
+ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize):
+    QObject(parent)
 {
     this->img_queue = new QQueue<QImage>();
     this->receive = new QSemaphore(buffersize);
     this->display = new QSemaphore(0);
 }
 
-ReceiveThread::ReceiveThread(ReceiveDisplayFrame *rdf, DisplayThread *dis_thr, QLabel *label)
+ReceiveThread::ReceiveThread(QObject *parent, ReceiveDisplayFrame *rdf, DisplayThread *dis_thr, QLabel *label):
+    QThread(parent)
 {
     this->rdf = rdf;
     this->dis_thr = dis_thr;
     this->label = label;
-    this->udp_socket = new QUdpSocket();
+    this->udp_socket = new QUdpSocket(this);
+    this->udp_socket->bind(udp_port);
     connect(this->udp_socket, SIGNAL(error(QAbstractSocket::SocketError)),//这些显示状态的代码重复了, 可以用一个类继承QAbstractSocket, 然后RDF和TransferCmd在继承这个类, 但是既然它们两个已经作为单独的lib了, 再整理不麻烦了.
             this, SLOT(socket_error(QAbstractSocket::SocketError)));
     connect(this->udp_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
@@ -24,7 +28,7 @@ ReceiveThread::ReceiveThread(ReceiveDisplayFrame *rdf, DisplayThread *dis_thr, Q
 void ReceiveThread::run()
 {
     QByteArray ba;
-    while (qint64 size = this->udp_socket->pendingDatagramSize())
+    while (qint64 size = this->udp_socket->pendingDatagramSize() > 0)
     {
         ba.resize(size);
         ba = this->udp_socket->read(size);
@@ -36,7 +40,7 @@ void ReceiveThread::run()
     }
 }
 
-void ReceiveThread::start()
+void ReceiveThread::_start()
 {
     this->start();
     this->dis_thr->start();
@@ -154,7 +158,8 @@ void ReceiveThread::socket_state(QAbstractSocket::SocketState socketState)
     }
 }
 
-DisplayThread::DisplayThread(ReceiveDisplayFrame *rdf, QLabel *label)
+DisplayThread::DisplayThread(QObject *parent, ReceiveDisplayFrame *rdf, QLabel *label):
+    QThread(parent)
 {
     this->rdf = rdf;
     this->label = label;

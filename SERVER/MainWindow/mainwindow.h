@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <capturesendframe.h>
-#include <transfercmd.h>
+#include <tcpserver.h>
+
 
 namespace Ui {
 class MainWindow;
@@ -19,10 +19,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    CaptureSendFrame *csf;
-    CaptureThread *cap_thr;
-    SendThread *send_thr;
-    TransferCmd *tfc;
+
+    TcpServer *tcp_server;
 };
 
 #endif // MAINWINDOW_H

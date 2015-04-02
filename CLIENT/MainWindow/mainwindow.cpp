@@ -9,10 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->rdf = new ReceiveDisplayFrame();
-    this->dis_thr = new DisplayThread(this->rdf, this->ui->statusLabel);
-    this->rec_thr = new ReceiveThread(this->rdf, this->dis_thr, this->ui->statusLabel);
-    this->tfc = new TransferCmd(this->ui->statusLabel);
+    this->rdf = new ReceiveDisplayFrame(this);
+    this->dis_thr = new DisplayThread(this, this->rdf, this->ui->statusLabel);
+    this->rec_thr = new ReceiveThread(this, this->rdf, this->dis_thr, this->ui->statusLabel);
+    this->tfc = new TransferCmd(this, this->ui->statusLabel);
 
     btnList.append(ui->connectBtn);
     btnList.append(ui->disconnectBtn);

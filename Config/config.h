@@ -29,8 +29,8 @@ const char * CDWORKDIRECTORY = "cd D:\\srtp-master\\build";
 QList<QHostAddress> CONFIGSHARED_EXPORT IPs();
 
 
-const int tcp_port = 6000;
-const int udp_port = 8000;
+const quint16 tcp_port = 6000;
+const quint16 udp_port = 6060;
 
 class CONFIGSHARED_EXPORT Config
 {

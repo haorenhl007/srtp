@@ -29,7 +29,7 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT DisplayThread: public QThread
 {
     Q_OBJECT
 public:
-    DisplayThread(ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
+    DisplayThread(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
 
 protected:
     void run();
@@ -48,7 +48,7 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveThread: public QThread
 {
     Q_OBJECT
 public:
-    ReceiveThread(ReceiveDisplayFrame *rdf = nullptr, DisplayThread *dis_thr=nullptr, QLabel *label = nullptr);
+    ReceiveThread(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, DisplayThread *dis_thr=nullptr, QLabel *label = nullptr);
     QUdpSocket *udp_socket;
 
 protected:
@@ -59,7 +59,7 @@ private slots:
     void socket_state(QAbstractSocket::SocketState socketState);
 
 private:
-    void start();
+    void _start();
 
     ReceiveDisplayFrame *rdf;
     DisplayThread *dis_thr;

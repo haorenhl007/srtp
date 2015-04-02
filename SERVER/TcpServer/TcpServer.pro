@@ -1,29 +1,29 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-03-27T08:54:52
+# Project created by QtCreator 2015-04-02T20:57:18
 #
 #-------------------------------------------------
 
 QT       += network
 
+TARGET = TcpServer
+TEMPLATE = lib
 CONFIG += c++11
 
-TARGET = TransferCmd
-TEMPLATE = lib
+DEFINES += TCPSERVER_LIBRARY
 
-DEFINES += TRANSFERCMD_LIBRARY
+SOURCES += tcpserver.cpp
 
-SOURCES += transfercmd.cpp
-
-HEADERS += transfercmd.h\
-        transfercmd_global.h
+HEADERS += tcpserver.h\
+        tcpserver_global.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
 
-
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += opencv
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../Config/release/ -lConfig
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../Config/debug/ -lConfig

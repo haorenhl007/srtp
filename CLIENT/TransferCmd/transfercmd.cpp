@@ -3,7 +3,8 @@
 #include <QMessageBox>
 
 
-TransferCmd::TransferCmd(QLabel *label)
+TransferCmd::TransferCmd(QObject *parent, QLabel *label):
+    QTcpSocket(parent)
 {
     this->label = label;
     connect(this, SIGNAL(readyRead()), SLOT(read_cmd()));

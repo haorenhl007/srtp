@@ -10,7 +10,7 @@ class TRANSFERCMDSHARED_EXPORT TransferCmd: public QTcpSocket
     Q_OBJECT
 
 public:
-    TransferCmd(QLabel *label = nullptr);
+    TransferCmd(QObject *parent=0, QLabel *label = nullptr);
 
 private slots:
     void read_cmd();
