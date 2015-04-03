@@ -1,6 +1,6 @@
 #include "mainwindow.h"
-#include <config.h>
 #include "ui_mainwindow.h"
+#include <config.h>
 #include <QHostAddress>
 #include <QHostInfo>
 #include <QList>
@@ -11,7 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->tcp_server = new TcpServer(this);
+    this->transfer_cmd = new TransferCmd::TransferCmd(this);
+    this->transfer_frame = new TransferFrame::TransferFrame(this);
 
 
     QList<QHostAddress> list(IPs());

@@ -28,9 +28,16 @@ INCLUDEPATH += $$PWD/../../Config
 DEPENDPATH += $$PWD/../../Config
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../TcpServer/release/ -lTcpServer
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../TcpServer/debug/ -lTcpServer
-else:unix: LIBS += -L$$OUT_PWD/../TcpServer/ -lTcpServer
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../TransferCmd/release/ -lTransferCmd
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../TransferCmd/debug/ -lTransferCmd
+else:unix: LIBS += -L$$OUT_PWD/../TransferCmd/ -lTransferCmd
 
-INCLUDEPATH += $$PWD/../TcpServer
-DEPENDPATH += $$PWD/../TcpServer
+INCLUDEPATH += $$PWD/../TransferCmd
+DEPENDPATH += $$PWD/../TransferCmd
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../TransferFrame/release/ -lTransferFrame
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../TransferFrame/debug/ -lTransferFrame
+else:unix: LIBS += -L$$OUT_PWD/../TransferFrame/ -lTransferFrame
+
+INCLUDEPATH += $$PWD/../TransferFrame
+DEPENDPATH += $$PWD/../TransferFrame

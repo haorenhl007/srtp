@@ -11,12 +11,13 @@ ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize):
 }
 
 TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf, QLabel *label):
-    TcpSocket(parent)
+    QTcpSocket(parent)
 {
     this->rdf = rdf;
     this->label = label;
 
-    connect(this, SIGNAL(readyRead()), this, SLOT(receive_frame()));
+    connect(this, SIGNAL(connected()), this, SLOT(receive_frame()));
+    connect(this, SIGNAL(disconnected()), this, SLOT(deleteLater()));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)),//这些显示状态的代码重复了, 可以用一个类继承QAbstractSocket, 然后RDF和TransferCmd在继承这个类, 但是既然它们两个已经作为单独的lib了, 再整理不麻烦了.
             this, SLOT(socket_error(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
@@ -26,7 +27,7 @@ TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf, QLabel *label):
 
 void TcpSocket::receive_frame()
 {
-    qDebug() << "call receive_frame" << endl;
+    /*
     QByteArray ba;
     while (this->hasPendingDatagrams());
     {
@@ -41,6 +42,7 @@ void TcpSocket::receive_frame()
         this->rdf->img_queue->enqueue(QImage::fromData(ba, "PNG"));
         this->rdf->display->release();
     }
+    */
 }
 
 

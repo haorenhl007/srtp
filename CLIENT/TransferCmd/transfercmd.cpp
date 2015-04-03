@@ -8,7 +8,7 @@ TransferCmd::TransferCmd(QObject *parent, QLabel *label):
 {
     this->label = label;
     connect(this, SIGNAL(readyRead()), SLOT(read_cmd()));
-    connect(this, SIGNAL(readyRead()), SLOT(read_cmd()));
+    connect(this, SIGNAL(disconnected()), SLOT(deleteLater()));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(socket_error(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)),

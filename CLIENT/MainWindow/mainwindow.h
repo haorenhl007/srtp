@@ -41,8 +41,9 @@ private:
     QList<QPushButton*> btnList;
 
     ReceiveDisplayFrame *rdf;
-    UdpSocket *udp_socket;
+    TcpSocket *tcp_socket;
     DisplayThread *dis_thr;
+
     TransferCmd *tfc;
 };
 

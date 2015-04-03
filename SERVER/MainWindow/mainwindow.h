@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <tcpserver.h>
+#include <transfercmd.h>
+#include <transferframe.h>
 
 
 namespace Ui {
@@ -20,7 +21,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    TcpServer *tcp_server;
+    TransferCmd::TransferCmd *transfer_cmd;
+    TransferFrame::TransferFrame *transfer_frame;
 };
 
 #endif // MAINWINDOW_H

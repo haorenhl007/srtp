@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     MainWindow \
-    TcpServer
+    TransferCmd \
+    TransferFrame
