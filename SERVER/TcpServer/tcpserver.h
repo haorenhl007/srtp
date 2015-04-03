@@ -13,7 +13,6 @@ using namespace cv;
 
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QUdpSocket>
 #include <QThread>
 #include <QQueue>
 #include <QSemaphore>
@@ -60,7 +59,7 @@ class CaptureSendFrame: public QObject
     Q_OBJECT
 
     friend class CaptureThread;
-    friend class UdpSocket;
+    friend class TcpSocket;
 public:
     CaptureSendFrame(QObject *parent=0, int buffersize=100);
 
@@ -84,18 +83,17 @@ private:
     CaptureSendFrame *csf;
 };
 
-class UdpSocket: public QUdpSocket
+class SendFrame: public QTcpSocket
 {
     Q_OBJECT
 public:
-    UdpSocket(QObject *parent=0, CaptureSendFrame* csf=nullptr);
+    SendFrame(QObject *parent=0, CaptureSendFrame* csf=nullptr);
     void send_frame();
 
-
 private:
-
     CaptureSendFrame *csf;
     CaptureThread *cap_thr;
+
 };
 
 #endif // TCPSERVER_H

@@ -6,7 +6,7 @@
 #include <QThread>
 #include <QImage>
 #include <QSemaphore>
-#include <QUdpSocket>
+#include <QTcpSocket>
 #include <QLabel>
 
 class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveDisplayFrame: public QObject
@@ -43,12 +43,24 @@ private:
 };
 
 
+/*
+使用UdpSocket发送有点不妥
 
-class RECEIVEDISPLAYFRAMESHARED_EXPORT UdpSocket: public QUdpSocket
+Datagrams are always written as one block.
+The maximum size of a datagram is highly platform-dependent,
+but can be as low as 8192 bytes. If the datagram is too large,
+this function will return -1 and error() will return DatagramTooLargeError.
+
+Sending datagrams larger than 512 bytes is in general disadvised,
+as even if they are sent successfully, they are likely to be fragmented
+by the IP layer before arriving at their final destination.
+*/
+
+class RECEIVEDISPLAYFRAMESHARED_EXPORT TcpSocket: public QTcpSocket
 {
     Q_OBJECT
 public:
-    UdpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
+    TcpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
 
 private slots:
     void receive_frame();

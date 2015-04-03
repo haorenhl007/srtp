@@ -67,7 +67,7 @@ void MainWindow::on_connectBtn_clicked()
 {
 
     this->tfc->connectToHost(ui->ipLineEdit->text(), tcp_port);
-    this->udp_socket->connectToHost(ui->ipLineEdit->text(), udp_port);
+    this->udp_socket->connectToHost(ui->ipLabel->text(), udp_port);
 }
 
 void MainWindow::on_disconnectBtn_clicked()

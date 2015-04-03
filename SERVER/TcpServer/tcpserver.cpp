@@ -26,9 +26,7 @@ void TcpServer::incomingConnection(qintptr socketDescriptor)
     CaptureThread *cap_thr = new CaptureThread(this, csf);
     cap_thr->start();
 
-    UdpSocket *udp_socket = new UdpSocket(this, csf);
-    udp_socket->setSocketDescriptor(socketDescriptor);
-    udp_socket->send_frame();
+    SendFrame *send_frame = new SendFrame(this, csf);
 }
 
 TcpSocket::TcpSocket(QObject *parent):
@@ -165,15 +163,18 @@ void CaptureThread::run()
 }
 
 
-UdpSocket::UdpSocket(QObject *parent, CaptureSendFrame *csf):
-    QUdpSocket(parent)
+SendFrame::SendFrame(QObject *parent, CaptureSendFrame *csf):
+    QTcpSocket(parent)
 {
     this->csf = csf;
+    //connect(this, SIGNAL(readyRead()), this, SLOT(process_message());
 }
 
-void UdpSocket::send_frame()
+
+
+void SendFrame::send_frame()
 {
-    namedWindow("test", WINDOW_AUTOSIZE);
+    //namedWindow("test", WINDOW_AUTOSIZE);
     Mat m;
     QImage img;
     QByteArray ba;
@@ -187,14 +188,12 @@ void UdpSocket::send_frame()
             img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
             img.save(&buffer, "PNG");
 
-
-            qint64 size =  this->write(buffer.data(), buffer.size());
-            qDebug() << size << endl;
-
-
-            imshow("test", this->csf->mat_queue->dequeue());
-            this->csf->capture->release();
-            waitKey(30);
+            qDebug() << "img.byteCount: " << img.byteCount()
+                     << ";\t" << "buffer.size: " << buffer.size() << endl;
+            //this->write(buffer.data(), buffer.size());
+            imshow("test", m);
+            waitKey(10);
         }
+        this->csf->capture->release();
     }
 }
