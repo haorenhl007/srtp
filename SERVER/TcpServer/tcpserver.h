@@ -26,10 +26,8 @@ class TCPSERVERSHARED_EXPORT TcpServer: QTcpServer
 public:
     TcpServer(QObject *parent=0);
 
-protected:
-    void incomingConnection(int socketId);
-
 private:
+    void incomingConnection(qintptr socketDescriptor);
 
 };
 
@@ -91,11 +89,11 @@ class UdpSocket: public QUdpSocket
     Q_OBJECT
 public:
     UdpSocket(QObject *parent=0, CaptureSendFrame* csf=nullptr);
-
-private slots:
     void send_frame();
 
+
 private:
+
     CaptureSendFrame *csf;
     CaptureThread *cap_thr;
 };

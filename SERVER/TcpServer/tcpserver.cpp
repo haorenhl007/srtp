@@ -15,24 +15,27 @@ TcpServer::TcpServer(QObject *parent):
     }
 }
 
-void TcpServer::incomingConnection(int socketId)
+void TcpServer::incomingConnection(qintptr socketDescriptor)
 {
-    qDebug() << "new connection" << endl;
-
     TcpSocket *tcp_socket = new TcpSocket(this);
-    tcp_socket->setSocketDescriptor(socketId);
+    tcp_socket->setSocketDescriptor(socketDescriptor);
+
 
     CaptureSendFrame *csf = new CaptureSendFrame(this);
+
     CaptureThread *cap_thr = new CaptureThread(this, csf);
     cap_thr->start();
+
     UdpSocket *udp_socket = new UdpSocket(this, csf);
-    udp_socket->setSocketDescriptor(socketId);
+    udp_socket->setSocketDescriptor(socketDescriptor);
+    udp_socket->send_frame();
 }
 
 TcpSocket::TcpSocket(QObject *parent):
     QTcpSocket(parent)
 {
     connect(this, SIGNAL(readyRead()), this, SLOT(readClient()));
+    connect(this, SIGNAL(disconnected()), this, SLOT(deleteLater()));
 }
 
 
@@ -142,7 +145,7 @@ CaptureThread::CaptureThread(QObject *parent, CaptureSendFrame *csf):
 void CaptureThread::run()
 {
     Mat m;
-    VideoCapture cap(0);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
+    VideoCapture cap(1);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
     //cap.set(CV_CAP_PROP_FRAME_WIDTH, 1024);
     //cap.set(CV_CAP_PROP_FRAME_HEIGHT, 960);
     if (cap.isOpened())
@@ -166,22 +169,32 @@ UdpSocket::UdpSocket(QObject *parent, CaptureSendFrame *csf):
     QUdpSocket(parent)
 {
     this->csf = csf;
-    connect(this, SIGNAL(readyRead()), this, SLOT(send_frame()));
 }
 
 void UdpSocket::send_frame()
 {
+    namedWindow("test", WINDOW_AUTOSIZE);
+    Mat m;
+    QImage img;
     QByteArray ba;
     QBuffer buffer(&ba);
-    this->csf->send->acquire();
-    if (!this->csf->mat_queue->isEmpty())
+    while (true)
     {
-        Mat m = this->csf->mat_queue->dequeue();
-        QImage img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
-        img.save(&buffer, "PNG");
-        this->write(buffer.data(), buffer.size());
-        //imshow("test", this->csf->mat_queue->dequeue());
-        this->csf->capture->release();
-        //waitKey(30);
+        this->csf->send->acquire();
+        if (!this->csf->mat_queue->isEmpty())
+        {
+            m = this->csf->mat_queue->dequeue();
+            img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
+            img.save(&buffer, "PNG");
+
+
+            qint64 size =  this->write(buffer.data(), buffer.size());
+            qDebug() << size << endl;
+
+
+            imshow("test", this->csf->mat_queue->dequeue());
+            this->csf->capture->release();
+            waitKey(30);
+        }
     }
 }

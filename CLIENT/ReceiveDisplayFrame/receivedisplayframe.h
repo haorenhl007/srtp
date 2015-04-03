@@ -13,8 +13,8 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveDisplayFrame: public QObject
 {
     Q_OBJECT
 
-    friend class ReceiveThread;
     friend class DisplayThread;
+    friend class UdpSocket;
 public:
     ReceiveDisplayFrame(QObject *parent=0, int buffersize=100);
 
@@ -44,25 +44,19 @@ private:
 
 
 
-class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveThread: public QThread
+class RECEIVEDISPLAYFRAMESHARED_EXPORT UdpSocket: public QUdpSocket
 {
     Q_OBJECT
 public:
-    ReceiveThread(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, DisplayThread *dis_thr=nullptr, QLabel *label = nullptr);
-    QUdpSocket *udp_socket;
-
-protected:
-    void run();
+    UdpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
 
 private slots:
+    void receive_frame();
     void socket_error(QAbstractSocket::SocketError socketError);
     void socket_state(QAbstractSocket::SocketState socketState);
 
 private:
-    void _start();
-
     ReceiveDisplayFrame *rdf;
-    DisplayThread *dis_thr;
     QLabel *label;
 
 };

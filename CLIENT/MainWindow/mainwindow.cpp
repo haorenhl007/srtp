@@ -9,11 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->rdf = new ReceiveDisplayFrame(this);
-    this->dis_thr = new DisplayThread(this, this->rdf, this->ui->statusLabel);
-    this->rec_thr = new ReceiveThread(this, this->rdf, this->dis_thr, this->ui->statusLabel);
-    this->tfc = new TransferCmd(this, this->ui->statusLabel);
-
     btnList.append(ui->connectBtn);
     btnList.append(ui->disconnectBtn);
     btnList.append(ui->openSystemBtn);
@@ -23,10 +18,15 @@ MainWindow::MainWindow(QWidget *parent) :
     btnList.append(ui->disconnectSystemBtn);
     btnList.append(ui->closeSystemBtn);
 
+    this->rdf = new ReceiveDisplayFrame(this);
+    this->dis_thr = new DisplayThread(this, this->rdf, this->ui->statusLabel);
+    this->udp_socket = new UdpSocket(this, this->rdf, this->ui->statusLabel);
+
+    this->tfc = new TransferCmd(this, this->ui->statusLabel);
+
     connect(ui->ipLineEdit, SIGNAL(textChanged(QString)), this, SLOT(enableConnectBtn()));
-    connect(this->rec_thr->udp_socket, SIGNAL(connected()), this->rec_thr, SLOT(start()));
-    connect(this->rec_thr->udp_socket, SIGNAL(disconnected()), this->rec_thr, SLOT(quit()));
-    connect(this->rec_thr->udp_socket, SIGNAL(disconnected()), this->dis_thr, SLOT(quit()));
+    connect(this->udp_socket, SIGNAL(connected()), this->dis_thr, SLOT(start()));
+    connect(this->udp_socket, SIGNAL(disconnected()), this->dis_thr, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -67,13 +67,13 @@ void MainWindow::on_connectBtn_clicked()
 {
 
     this->tfc->connectToHost(ui->ipLineEdit->text(), tcp_port);
-    this->rec_thr->udp_socket->connectToHost(ui->ipLineEdit->text(), udp_port);
+    this->udp_socket->connectToHost(ui->ipLineEdit->text(), udp_port);
 }
 
 void MainWindow::on_disconnectBtn_clicked()
 {
    this->tfc->close();
-   this->rec_thr->udp_socket->close();
+   this->udp_socket->close();
 }
 
 void MainWindow::on_openSystemBtn_clicked()
