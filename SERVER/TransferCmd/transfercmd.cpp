@@ -14,6 +14,7 @@ namespace TransferCmd {
 
     void TransferCmd::incomingConnection(qintptr socketDescriptor)
     {
+        qDebug() << "new connection" << endl;
         TcpSocket *tcp_socket = new TcpSocket(this);
         tcp_socket->setSocketDescriptor(socketDescriptor);
     }
@@ -95,7 +96,7 @@ namespace TransferCmd {
     void TcpSocket::disconnectSystem()
     {
         //engEvalString(ep, DISCONNECTSYSTEM);
-        this->putChar(connectSystemCommand);
+        this->putChar(disconnectSystemCommand);
     }
 
     void TcpSocket::startSystem()

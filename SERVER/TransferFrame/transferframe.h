@@ -36,7 +36,7 @@ namespace TransferFrame {
         friend class CaptureThread;
         friend class TcpSocket;
     public:
-        CaptureSendFrame(QObject *parent=0, int buffersize=100);
+        CaptureSendFrame(QObject *parent=0, int buffersize=20);
 
     private:
         QQueue<Mat> *mat_queue;

@@ -58,78 +58,78 @@ void TransferCmd::socket_error(QAbstractSocket::SocketError socketError)
     switch (socketError)
     {
     case QAbstractSocket::ConnectionRefusedError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ConnectionRefusedError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ConnectionRefusedError"));
         break;
     case QAbstractSocket::RemoteHostClosedError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("RemoteHostClosedError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("RemoteHostClosedError"));
         break;
     case QAbstractSocket::HostNotFoundError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("HostNotFoundError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("HostNotFoundError"));
         break;
     case QAbstractSocket::SocketAccessError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SocketAccessError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SocketAccessError"));
         break;
     case QAbstractSocket::SocketResourceError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SocketResourceError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SocketResourceError"));
         break;
     case QAbstractSocket::SocketTimeoutError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SocketTimeoutError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SocketTimeoutError"));
         break;
     case QAbstractSocket::DatagramTooLargeError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("DatagramTooLargeError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("DatagramTooLargeError"));
         break;
     case QAbstractSocket::NetworkError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("NetworkError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("NetworkError"));
         break;
     case QAbstractSocket::AddressInUseError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("AddressInUseError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("AddressInUseError"));
         break;
     case QAbstractSocket::SocketAddressNotAvailableError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SocketAddressNotAvailableError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SocketAddressNotAvailableError"));
         break;
     case QAbstractSocket::UnsupportedSocketOperationError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("UnsupportedSocketOperationError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("UnsupportedSocketOperationError"));
         break;
     case QAbstractSocket::ProxyAuthenticationRequiredError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ProxyAuthenticationRequiredError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ProxyAuthenticationRequiredError"));
         break;
     case QAbstractSocket::SslHandshakeFailedError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SslHandshakeFailedError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SslHandshakeFailedError"));
         break;
     case QAbstractSocket::UnfinishedSocketOperationError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("UnfinishedSocketOperationError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("UnfinishedSocketOperationError"));
         break;
     case QAbstractSocket::ProxyConnectionRefusedError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ProxyConnectionRefusedError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ProxyConnectionRefusedError"));
         break;
     case QAbstractSocket::ProxyConnectionClosedError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ProxyConnectionClosedError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ProxyConnectionClosedError"));
         break;
     case QAbstractSocket::ProxyConnectionTimeoutError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ProxyConnectionTimeoutError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ProxyConnectionTimeoutError"));
         break;
     case QAbstractSocket::ProxyNotFoundError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ProxyNotFoundError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ProxyNotFoundError"));
         break;
     case QAbstractSocket::ProxyProtocolError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("ProxyProtocolError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("ProxyProtocolError"));
         break;
     /*
     case QAbstractSocket::OperationError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("OperationError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("OperationError"));
         break;
     case QAbstractSocket::SslInternalError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SslInternalError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SslInternalError"));
         break;
     case QAbstractSocket::SslInvalidUserDataError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("SslInvalidUserDataError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("SslInvalidUserDataError"));
         break;
     case QAbstractSocket::TemporaryError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("TemporaryError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("TemporaryError"));
         break;
     */
     case QAbstractSocket::UnknownSocketError:
-        QMessageBox::information(this->label, tr("TcpSocketError"), tr("UnknownSocketError"));
+        QMessageBox::information(this->label, tr("TransferCmd::TcpSocketError"), tr("UnknownSocketError"));
         break;
     default:
         break;
@@ -141,25 +141,25 @@ void TransferCmd::socket_state(QAbstractSocket::SocketState socketState)
     switch (socketState)
     {
         case QAbstractSocket::UnconnectedState:
-            this->label->setText(tr("TcpSocketState: Unconnected"));
+            this->label->setText(tr("TransferCmd::TcpSocketState: Unconnected"));
             break;
         case QAbstractSocket::HostLookupState:
-            this->label->setText(tr("TcpSocketState: HostLookUP"));
+            this->label->setText(tr("TransferCmd::TcpSocketState: HostLookUP"));
             break;
         case QAbstractSocket::ConnectingState:
-            this->label->setText(tr("TcpSocketState: Connecting"));
+            this->label->setText(tr("TransferCmd::TcpSocketState: Connecting"));
             break;
         case QAbstractSocket::ConnectedState:
-            this->label->setText(tr("TcpSocketState: Connected"));
+            this->label->setText(tr("TransferCmd::TcpSocketState: Connected"));
             break;
         case QAbstractSocket::BoundState:
-            this->label->setText(tr("SocketStatus: Bound"));
+            this->label->setText(tr("TransferCmd::TcpSocketState: Bound"));
             break;
         case QAbstractSocket::ClosingState:
-            this->label->setText(tr("SocketStatus: Closing"));
+            this->label->setText(tr("TransferCmd::TcpSocketState: Closing"));
             break;
         case QAbstractSocket::ListeningState:
-            this->label->setText(tr("SocketStatus:: Listening"));
+            this->label->setText(tr("TransferCmd::TcpSocketState:: Listening"));
             break;
 
     }

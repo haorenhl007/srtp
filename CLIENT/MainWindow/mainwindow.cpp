@@ -66,7 +66,6 @@ void MainWindow::setBtnStatus(quint16 enableStatus, quint16 defaultStatus)
 
 void MainWindow::on_connectBtn_clicked()
 {
-
     this->tfc->connectToHost(ui->ipLineEdit->text(), transfer_cmd_port);
     this->tcp_socket->connectToHost(ui->ipLineEdit->text(), transfer_frame_port);
 }

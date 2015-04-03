@@ -27,22 +27,20 @@ TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf, QLabel *label):
 
 void TcpSocket::receive_frame()
 {
-    /*
-    QByteArray ba;
-    while (this->hasPendingDatagrams());
+    //QByteArray ba;
+    qDebug() << "call receive frame" << endl;
+    QDataStream dt(this);
+    QImage img;
+    while (true)
     {
-        ba.resize(this->pendingDatagramSize());
-        this->read(ba.data(), ba.size());
-
-        qDebug() << "pendingDatagramSize: " << this->pendingDatagramSize() << "; "
-                 << "ba.size(): " << ba.size() << endl;
-    }//忽略发射readReady信号前的数据报
-    if (this->rdf->receive->tryAcquire())
-    {
-        this->rdf->img_queue->enqueue(QImage::fromData(ba, "PNG"));
-        this->rdf->display->release();
+        dt >> img;
+        if (this->rdf->receive->tryAcquire())
+        {
+            //this->rdf->img_queue->enqueue(QImage::fromData(ba, "PNG"));
+            this->rdf->img_queue->enqueue(img);
+            this->rdf->display->release();
+        }
     }
-    */
 }
 
 
@@ -51,78 +49,78 @@ void TcpSocket::socket_error(QAbstractSocket::SocketError socketError)
     switch (socketError)
     {
     case QAbstractSocket::ConnectionRefusedError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ConnectionRefusedError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ConnectionRefusedError"));
         break;
     case QAbstractSocket::RemoteHostClosedError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("RemoteHostClosedError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("RemoteHostClosedError"));
         break;
     case QAbstractSocket::HostNotFoundError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("HostNotFoundError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("HostNotFoundError"));
         break;
     case QAbstractSocket::SocketAccessError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SocketAccessError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SocketAccessError"));
         break;
     case QAbstractSocket::SocketResourceError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SocketResourceError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SocketResourceError"));
         break;
     case QAbstractSocket::SocketTimeoutError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SocketTimeoutError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SocketTimeoutError"));
         break;
     case QAbstractSocket::DatagramTooLargeError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("DatagramTooLargeError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("DatagramTooLargeError"));
         break;
     case QAbstractSocket::NetworkError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("NetworkError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("NetworkError"));
         break;
     case QAbstractSocket::AddressInUseError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("AddressInUseError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("AddressInUseError"));
         break;
     case QAbstractSocket::SocketAddressNotAvailableError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SocketAddressNotAvailableError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SocketAddressNotAvailableError"));
         break;
     case QAbstractSocket::UnsupportedSocketOperationError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("UnsupportedSocketOperationError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("UnsupportedSocketOperationError"));
         break;
     case QAbstractSocket::ProxyAuthenticationRequiredError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ProxyAuthenticationRequiredError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ProxyAuthenticationRequiredError"));
         break;
     case QAbstractSocket::SslHandshakeFailedError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SslHandshakeFailedError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SslHandshakeFailedError"));
         break;
     case QAbstractSocket::UnfinishedSocketOperationError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("UnfinishedSocketOperationError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("UnfinishedSocketOperationError"));
         break;
     case QAbstractSocket::ProxyConnectionRefusedError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ProxyConnectionRefusedError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ProxyConnectionRefusedError"));
         break;
     case QAbstractSocket::ProxyConnectionClosedError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ProxyConnectionClosedError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ProxyConnectionClosedError"));
         break;
     case QAbstractSocket::ProxyConnectionTimeoutError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ProxyConnectionTimeoutError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ProxyConnectionTimeoutError"));
         break;
     case QAbstractSocket::ProxyNotFoundError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ProxyNotFoundError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ProxyNotFoundError"));
         break;
     case QAbstractSocket::ProxyProtocolError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("ProxyProtocolError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("ProxyProtocolError"));
         break;
     /*
     case QAbstractSocket::OperationError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("OperationError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("OperationError"));
         break;
     case QAbstractSocket::SslInternalError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SslInternalError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SslInternalError"));
         break;
     case QAbstractSocket::SslInvalidUserDataError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("SslInvalidUserDataError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("SslInvalidUserDataError"));
         break;
     case QAbstractSocket::TemporaryError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("TemporaryError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("TemporaryError"));
         break;
     */
     case QAbstractSocket::UnknownSocketError:
-        QMessageBox::information(this->label, QObject::tr("TcpSocketError"), QObject::tr("UnknownSocketError"));
+        QMessageBox::information(this->label, QObject::tr("TransferFrame::TcpSocketError"), QObject::tr("UnknownSocketError"));
         break;
     default:
         break;
@@ -134,25 +132,25 @@ void TcpSocket::socket_state(QAbstractSocket::SocketState socketState)
     switch (socketState)
     {
         case QAbstractSocket::UnconnectedState:
-            this->label->setText(QObject::tr("TcpSocketState: Unconnected"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState: Unconnected"));
             break;
         case QAbstractSocket::HostLookupState:
-            this->label->setText(QObject::tr("TcpSocketState: HostLookUP"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState: HostLookUP"));
             break;
         case QAbstractSocket::ConnectingState:
-            this->label->setText(QObject::tr("TcpSocketState: Connecting"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState: Connecting"));
             break;
         case QAbstractSocket::ConnectedState:
-            this->label->setText(QObject::tr("TcpSocketState: Connected"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState: Connected"));
             break;
         case QAbstractSocket::BoundState:
-            this->label->setText(QObject::tr("SocketStatus: Bound"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState: Bound"));
             break;
         case QAbstractSocket::ClosingState:
-            this->label->setText(QObject::tr("SocketStatus: Closing"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState: Closing"));
             break;
         case QAbstractSocket::ListeningState:
-            this->label->setText(QObject::tr("SocketStatus:: Listening"));
+            this->label->setText(QObject::tr("TransferFrame::TcpSocketState:: Listening"));
             break;
 
     }
@@ -167,6 +165,7 @@ DisplayThread::DisplayThread(QObject *parent, ReceiveDisplayFrame *rdf, QLabel *
 
 void DisplayThread::run()
 {
+    qDebug() << "call display thread" << endl;
     while (true)
     {
         if (this->rdf->display->tryAcquire())
@@ -174,6 +173,6 @@ void DisplayThread::run()
             this->image = this->rdf->img_queue->dequeue();
             this->rdf->receive->release();
         }
-        //this->label->setPixmap(QPixmap::fromImage(this->image));
+        this->label->setPixmap(QPixmap::fromImage(this->image));
     }
 }

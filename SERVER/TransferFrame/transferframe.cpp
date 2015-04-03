@@ -79,6 +79,7 @@ namespace TransferFrame {
     void TcpSocket::send_frame()
     {
         namedWindow("test", WINDOW_AUTOSIZE);
+        qint64 write_size;
         Mat m;
         QImage img;
         while (true)
@@ -90,13 +91,16 @@ namespace TransferFrame {
                 img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
                 QBuffer buffer;
                 img.save(&buffer, "PNG");
+                write_size = this->write(buffer.data(), buffer.size());
 
-                qDebug() << "mat_queue->size()" << this->csf->mat_queue->size()
-                         << ";\t" << "img.byteCount: " << img.byteCount()
-                         << ";\t" << "buffer.size: " << buffer.size() << endl;
-                //this->write(buffer.data(), buffer.size());
                 imshow("test", m);
                 waitKey(10);
+
+                qDebug() << "mat_queue->size()" << this->csf->mat_queue->size()
+                         << "; " << "img.byteCount: " << img.byteCount()
+                         << "; " << "buffer.size: " << buffer.size()
+                         << "; " << "send size: " << write_size
+                         << ((buffer.size() == write_size) ? "same" : "diff") << endl;
             }
             this->csf->capture->release();
         }
