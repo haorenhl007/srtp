@@ -22,9 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->rdf = new ReceiveDisplayFrame(this);
     this->dis_thr = new DisplayThread(this, this->rdf, this->ui->statusLabel);
-    this->tcp_socket = new TcpSocket(this, this->rdf, this->ui->statusLabel);
+    this->tcp_socket = new TcpSocket(this, this->rdf);
 
-    connect(this->tcp_socket, SIGNAL(connected()), this->dis_thr, SLOT(start()));
+    connect(this->tcp_socket, SIGNAL(connected()), this->dis_thr, SLOT(start()));//想通了, receiveframe那个循环在主线程里呢, 给丫阻塞在那里呢!
     connect(this->tcp_socket, SIGNAL(disconnected()), this->dis_thr, SLOT(quit()));
 
     connect(ui->ipLineEdit, SIGNAL(textChanged(QString)), this, SLOT(enableConnectBtn()));

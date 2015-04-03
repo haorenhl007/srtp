@@ -91,7 +91,8 @@ namespace TransferFrame {
                 img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
                 QBuffer buffer;
                 img.save(&buffer, "PNG");
-                write_size = this->write(buffer.data(), buffer.size());
+                //write_size = this->write(buffer.data(), buffer.size());
+                write_size = 0;
 
                 imshow("test", m);
                 waitKey(10);

@@ -14,7 +14,6 @@ namespace TransferCmd {
 
     void TransferCmd::incomingConnection(qintptr socketDescriptor)
     {
-        qDebug() << "new connection" << endl;
         TcpSocket *tcp_socket = new TcpSocket(this);
         tcp_socket->setSocketDescriptor(socketDescriptor);
     }

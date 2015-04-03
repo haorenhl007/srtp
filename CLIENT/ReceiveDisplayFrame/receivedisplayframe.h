@@ -60,16 +60,13 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT TcpSocket: public QTcpSocket
 {
     Q_OBJECT
 public:
-    TcpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
+    TcpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr);
 
 private slots:
     void receive_frame();
-    void socket_error(QAbstractSocket::SocketError socketError);
-    void socket_state(QAbstractSocket::SocketState socketState);
 
 private:
     ReceiveDisplayFrame *rdf;
-    QLabel *label;
 
 };
 
