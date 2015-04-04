@@ -21,11 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->tfc = new TransferCmd(this, this->ui->statusLabel);
 
     this->rdf = new ReceiveDisplayFrame(this);
-    this->dis_thr = new DisplayThread(this, this->rdf, this->ui->statusLabel);
+    this->dis_thr = new DisplayThread(this, this->rdf, this->ui->frameLabel);
     this->tcp_socket = new TcpSocket(this, this->rdf);
 
-    connect(this->tcp_socket->tcp_socket, SIGNAL(connected()), this->dis_thr, SLOT(start()));//想通了, receiveframe那个循环在主线程里呢, 给丫阻塞在那里呢!
-    connect(this->tcp_socket->tcp_socket, SIGNAL(disconnected()), this->dis_thr, SLOT(quit()));
+    connect(this->tcp_socket, SIGNAL(connected()), this->dis_thr, SLOT(start()));//想通了, receiveframe那个循环在主线程里呢, 给丫阻塞在那里呢!
+    connect(this->tcp_socket, SIGNAL(disconnected()), this->dis_thr, SLOT(quit()));
 
     connect(ui->ipLineEdit, SIGNAL(textChanged(QString)), this, SLOT(enableConnectBtn()));
 }
@@ -67,13 +67,13 @@ void MainWindow::setBtnStatus(quint16 enableStatus, quint16 defaultStatus)
 void MainWindow::on_connectBtn_clicked()
 {
     this->tfc->connectToHost(ui->ipLineEdit->text(), transfer_cmd_port);
-    this->tcp_socket->tcp_socket->connectToHost(ui->ipLineEdit->text(), transfer_frame_port);
+    this->tcp_socket->connectToHost(ui->ipLineEdit->text(), transfer_frame_port);
 }
 
 void MainWindow::on_disconnectBtn_clicked()
 {
    this->tfc->close();
-   this->tcp_socket->tcp_socket->close();
+   this->tcp_socket->close();
 }
 
 void MainWindow::on_openSystemBtn_clicked()

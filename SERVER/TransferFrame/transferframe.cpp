@@ -49,7 +49,7 @@ namespace TransferFrame {
     void CaptureThread::run()
     {
         Mat m;
-        VideoCapture cap(1);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
+        VideoCapture cap(0);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
 
         if (cap.isOpened())
         {
@@ -94,7 +94,7 @@ namespace TransferFrame {
                 write_size = this->write(buffer.data(), buffer.size());
 
                 imshow("test", m);
-                waitKey(10);
+                waitKey(30);
 
                 qDebug() << "mat_queue->size()" << this->csf->mat_queue->size()
                          << "; " << "img.byteCount: " << img.byteCount()
