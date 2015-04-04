@@ -63,6 +63,9 @@ public:
     TcpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr);
     QTcpSocket *tcp_socket;
 
+private slots:
+    void test();
+
 private:
     void run();
 

@@ -18,8 +18,13 @@ TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf):
 
     connect(this->tcp_socket, SIGNAL(connected()), this, SLOT(start()));
     connect(this->tcp_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+    connect(this->tcp_socket, SIGNAL(readyRead()), this, SLOT(test()));
 }
 
+void TcpSocket::test()
+{
+    qDebug() << "read ready" << endl;
+}
 
 void TcpSocket::run()
 {
@@ -28,7 +33,7 @@ void TcpSocket::run()
     while (true)
     {
         ba = this->tcp_socket->readAll();
-        qDebug() << "ba.size: " << ba.size() << endl;
+        //qDebug() << "ba.size: " << ba.size() << endl;
         //if (this->rdf->receive->tryAcquire())
         //{
         //    this->rdf->img_queue->enqueue(QImage::fromData(ba, "JPEG"));
