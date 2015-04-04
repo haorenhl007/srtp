@@ -56,16 +56,16 @@ as even if they are sent successfully, they are likely to be fragmented
 by the IP layer before arriving at their final destination.
 */
 
-class RECEIVEDISPLAYFRAMESHARED_EXPORT TcpSocket: public QTcpSocket
+class RECEIVEDISPLAYFRAMESHARED_EXPORT TcpSocket: public QThread
 {
     Q_OBJECT
 public:
     TcpSocket(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr);
-
-private slots:
-    void receive_frame();
+    QTcpSocket *tcp_socket;
 
 private:
+    void run();
+
     ReceiveDisplayFrame *rdf;
 
 };

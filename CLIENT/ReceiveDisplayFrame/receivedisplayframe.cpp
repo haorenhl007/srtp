@@ -11,30 +11,29 @@ ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize):
 }
 
 TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf):
-    QTcpSocket(parent)
+    QThread(parent)
 {
     this->rdf = rdf;
+    tcp_socket = new QTcpSocket(this);
 
-    connect(this, SIGNAL(connected()), this, SLOT(receive_frame()));
-    connect(this, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+    connect(this->tcp_socket, SIGNAL(connected()), this, SLOT(start()));
+    connect(this->tcp_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
 }
 
 
-void TcpSocket::receive_frame()
+void TcpSocket::run()
 {
-    //QByteArray ba;
     qDebug() << "call receive frame" << endl;
-    QDataStream dt(this);
-    QImage img;
+    QByteArray ba;
     while (true)
     {
-        dt >> img;
-        if (this->rdf->receive->tryAcquire())
-        {
-            //this->rdf->img_queue->enqueue(QImage::fromData(ba, "PNG"));
-            this->rdf->img_queue->enqueue(img);
-            this->rdf->display->release();
-        }
+        ba = this->tcp_socket->readAll();
+        qDebug() << "ba.size: " << ba.size() << endl;
+        //if (this->rdf->receive->tryAcquire())
+        //{
+        //    this->rdf->img_queue->enqueue(QImage::fromData(ba, "JPEG"));
+        //    this->rdf->display->release();
+        //}
     }
 }
 
@@ -53,8 +52,8 @@ void DisplayThread::run()
         if (this->rdf->display->tryAcquire())
         {
             this->image = this->rdf->img_queue->dequeue();
+            this->label->setPixmap(QPixmap::fromImage(this->image));
             this->rdf->receive->release();
         }
-        this->label->setPixmap(QPixmap::fromImage(this->image));
     }
 }
