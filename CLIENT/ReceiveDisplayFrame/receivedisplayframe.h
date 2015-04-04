@@ -67,7 +67,8 @@ private slots:
 
 private:
     ReceiveDisplayFrame *rdf;
-
+    QDataStream in;
+    qint64 size;
 };
 
 #endif // RECEIVEDISPLAYFRAME_H

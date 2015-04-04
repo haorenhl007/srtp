@@ -49,7 +49,7 @@ namespace TransferFrame {
     void CaptureThread::run()
     {
         Mat m;
-        VideoCapture cap(0);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
+        VideoCapture cap(1);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
 
         if (cap.isOpened())
         {
@@ -84,23 +84,27 @@ namespace TransferFrame {
         QImage img;
         while (true)
         {
+            QBuffer buffer;
+            QByteArray block;
+            QDataStream out(&block, QIODevice::WriteOnly);
+            out.setVersion(QDataStream::Qt_5_3);
             this->csf->send->acquire();
             if (!this->csf->mat_queue->isEmpty())
             {
                 m = this->csf->mat_queue->dequeue();
                 img= QImage((uchar*) m.data, m.cols, m.rows, m.step, QImage::Format_RGB888);
-                QBuffer buffer;
                 img.save(&buffer, "JPEG");
-                write_size = this->write(buffer.data(), buffer.size());
+                out << qint64(buffer.size());
+                block.append(buffer.data());
+                write_size = this->write(block);
 
                 imshow("test", m);
                 waitKey(30);
 
                 qDebug() << "mat_queue->size()" << this->csf->mat_queue->size()
-                         << "; " << "img.byteCount: " << img.byteCount()
                          << "; " << "buffer.size: " << buffer.size()
-                         << "; " << "send size: " << write_size
-                         << ((buffer.size() == write_size) ? "same" : "diff") << endl;
+                         << "; " << "sizeof(qint32(buffer.size()))" << sizeof(qint64(buffer.size()))
+                         << "; " << "send size: " << write_size;
             }
             this->csf->capture->release();
         }

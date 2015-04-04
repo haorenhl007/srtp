@@ -11,8 +11,9 @@ ReceiveDisplayFrame::ReceiveDisplayFrame(QObject *parent, int buffersize):
 }
 
 TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf):
-    QTcpSocket(parent)
+    QTcpSocket(parent), in(this), size(0)
 {
+    this->in.setVersion(QDataStream::Qt_5_3);
     this->rdf = rdf;
 
     connect(this, SIGNAL(disconnected()), this, SLOT(deleteLater()));
@@ -22,14 +23,28 @@ TcpSocket::TcpSocket(QObject *parent, ReceiveDisplayFrame *rdf):
 
 void TcpSocket::receive_frame()
 {
-    QByteArray ba;
-    ba = this->readAll();
-    qDebug() << "ba.size: " << ba.size() << endl;
+    if (this->size == 0)
+    {
+        qDebug() << "this->bytesAbailable(): " << this->bytesAvailable();
+        if (this->bytesAvailable() < sizeof(qint64))
+            return;
+        in >> this->size;
+        qDebug() << "this->size" << this->size << " this->bytesAvailable(): " << this->bytesAvailable();
+    }
+
+    if (this->bytesAvailable() < this->size)
+        return;
+
+    qDebug() << "this->bytesAbailable(): " << this->bytesAvailable();
+    QByteArray block = this->read(this->size);
+    qDebug() << "block.size()" << block.size();
+
     if (this->rdf->receive->tryAcquire())
     {
-        this->rdf->img_queue->enqueue(QImage::fromData(ba, "JPEG"));
+        this->rdf->img_queue->enqueue(QImage::fromData(block, "JPEG"));
         this->rdf->display->release();
     }
+    this->size = 0;
 }
 
 DisplayThread::DisplayThread(QObject *parent, ReceiveDisplayFrame *rdf, QLabel *label):
