@@ -9,11 +9,13 @@
 #include <QSemaphore>
 
 #ifdef _WIN32
-    #include <opencv2/opencv.hpp>
+    #include <opencv2/highgui.hpp>
+
 #else
     #include <opencv2/opencv.hpp>
     #include <opencv2/highgui/highgui.hpp>
 #endif
+
 using namespace cv;
 
 namespace TransferFrame {
