@@ -1,6 +1,6 @@
 #SRTP项目: 远程控制二级柔性倒立摆
 
-*****关键词**: Qt OpenCV Tcp Thread
+*关键词*: Qt OpenCV Tcp Thread
 
 #### 不小心做成了远程视频监控~ 记录一下经验教训
 
