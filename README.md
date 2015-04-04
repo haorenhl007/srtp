@@ -16,7 +16,7 @@
 * 所以我改为使用TCP传输怎么传呢?TCP是流,但是我的QImage得有首部和身体,所以先发送QImage的size,再发送QImage的body(即buffer的size和data).
 
 * 于是我自以为是的使用`DataStream << buffer.size() << buffer.data()`发送,在接收端先接受size再等到来了足够数量的data后构造我的QImage.
-结果读出了第一帧.经检查接收端第二次收到的size是负值,发送端write的数大于sizeof(buffer.size)+buffer.size.
+结果只读出了第一帧.经检查接收端第二次收到的size是负值,发送端write的数大于sizeof(buffer.size)+buffer.size.
 
 * 然后从[stackoverflow.com](http://stackoverflow.com/questions/24379915/receiving-raw-image-data-through-tcp-for-display-using-qt)
 上找到了答案,原来QDataStream处理定长数据的输入输出,我的buffer.data()不像int,double是固定size的类型,所以不能使用QDataStrem,
