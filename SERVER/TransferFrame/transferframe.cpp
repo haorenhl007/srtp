@@ -55,14 +55,14 @@ namespace TransferFrame {
         {
             while(true)
             {
-                cap >> t;
-                cvtColor(t, m, CV_BGR2GRAY);
+                cap >> m;
+                //cvtColor(t, m, CV_BGR2GRAY);
                 if (this->csf->capture->tryAcquire())
                 {
                     this->csf->mat_queue->enqueue(m);
                     this->csf->send->release();
                 }
-                this->msleep(300);
+                this->msleep(200);
             }
         }
         else
