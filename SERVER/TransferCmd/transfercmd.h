@@ -32,11 +32,14 @@ namespace TransferCmd {
         void openMatLab();
         void closeMatLab();
         void openSystem();
+        void openSystem2();
         void connectSystem();
         void disconnectSystem();
         void startSystem();
         void stopSystem();
         void closeSystem();
+        void closeSystem2();
+
 
     private:
         //Engine *ep;

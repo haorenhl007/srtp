@@ -43,6 +43,9 @@ namespace TransferCmd {
             case openSystemCommand:
                 openSystem();
                 break;
+            case openSystemCommand2:
+                openSystem2();
+                break;
             case connectSystemCommand:
                 connectSystem();
                 break;
@@ -55,8 +58,12 @@ namespace TransferCmd {
             case stopSystemCommand:
                 stopSystem();
                 break;
+
             case closeSystemCommand:
                 closeSystem();
+                break;
+            case closeSystemCommand2:
+                closeSystem2();
                 break;
             default:
                 break;
@@ -86,6 +93,13 @@ namespace TransferCmd {
         this->putChar(openSystemCommand);
     }
 
+    void TcpSocket::openSystem2()
+    {
+        //engEvalString(ep, CDWORKDIRECTORY);
+        //engEvalString(ep, OPENSYSTEM2);
+        this->putChar(openSystemCommand2);
+    }
+
     void TcpSocket::connectSystem()
     {
         //engEvalString(ep, CONNECTSYSTEM);
@@ -112,6 +126,12 @@ namespace TransferCmd {
     void TcpSocket::closeSystem()
     {
         //engEvalString(ep, CLOSESYSTEM);
-        this->putChar(stopSystemCommand);
+        this->putChar(closeSystemCommand);
+    }
+
+    void TcpSocket::closeSystem2()
+    {
+        //engEvalString(ep, CLOSESYSTEM2);
+        this->putChar(closeSystemCommand2);
     }
 }

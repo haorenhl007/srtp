@@ -49,7 +49,7 @@ namespace TransferFrame {
     void CaptureThread::run()
     {
         Mat m, t;
-        VideoCapture cap(1);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
+        VideoCapture cap(0);//摄像头的设备号, 根据实际情况修改.$ ls /dev/video*
 
         if (cap.isOpened())
         {

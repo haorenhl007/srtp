@@ -9,7 +9,9 @@
 #include <QSemaphore>
 
 #ifdef _WIN32
-    #include <opencv2/highgui.hpp>
+    #include <opencv2/highgui/highgui.hpp>
+    #include <opencv2/opencv.hpp>
+    #include <opencv2/imgproc/types_c.h>
 
 #else
     #include <opencv2/opencv.hpp>
@@ -17,6 +19,7 @@
 #endif
 
 using namespace cv;
+
 
 namespace TransferFrame {
     class TRANSFERFRAMESHARED_EXPORT TransferFrame: public QTcpServer

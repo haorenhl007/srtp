@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->one_level = true;
+
     btnList.append(ui->connectBtn);
     btnList.append(ui->disconnectBtn);
     btnList.append(ui->openSystemBtn);
@@ -78,6 +80,8 @@ void MainWindow::on_disconnectBtn_clicked()
 
 void MainWindow::on_openSystemBtn_clicked()
 {
+    char o = this->one_level ? openSystemCommand : openSystemCommand2;
+
 
     if (this->tfc->putChar(openCommand) == false)
     {
@@ -88,7 +92,7 @@ void MainWindow::on_openSystemBtn_clicked()
     {
         ui->statusLabel->setText(tr("MatLab is starting"));
     }
-    if (this->tfc->putChar(openSystemCommand) == false)
+    if (this->tfc->putChar(o) == false)
     {
         QMessageBox::information(this, tr("Write Error"), tr("Error"));
     }
@@ -148,8 +152,9 @@ void MainWindow::on_disconnectSystemBtn_clicked()
 
 void MainWindow::on_closeSystemBtn_clicked()
 {
+    char c = this->one_level ? closeSystemCommand : closeSystemCommand2;
 
-    if (this->tfc->putChar(closeSystemCommand) == false)
+    if (this->tfc->putChar(c) == false)
     {
         QMessageBox::information(this, tr("write error"), tr("error"));
     }
@@ -157,4 +162,14 @@ void MainWindow::on_closeSystemBtn_clicked()
     {
         ui->statusLabel->setText(tr("system is closing"));
     }
+}
+
+void MainWindow::on_oneLevelBtn_clicked()
+{
+     this->one_level = true;
+}
+
+void MainWindow::on_twoLevelBtn_clicked()
+{
+    this->one_level = false;
 }

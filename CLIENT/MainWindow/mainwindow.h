@@ -33,6 +33,10 @@ private slots:
     void enableConnectBtn();
     void setBtnStatus(quint16 enableStatus, quint16 defaultStatus);
 
+    void on_oneLevelBtn_clicked();
+
+    void on_twoLevelBtn_clicked();
+
 private:
     //void openMatLab();
     //void closeMatLab();
@@ -45,6 +49,7 @@ private:
     DisplayThread *dis_thr;
 
     TransferCmd *tfc;
+    bool one_level;
 };
 
 #endif // MAINWINDOW_H
