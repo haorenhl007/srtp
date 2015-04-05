@@ -16,7 +16,7 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveDisplayFrame: public QObject
     friend class DisplayThread;
     friend class TcpSocket;
 public:
-    ReceiveDisplayFrame(QObject *parent=0, int buffersize=20);
+    ReceiveDisplayFrame(QObject *parent=0, int buffersize=50);
 
 private:
     QQueue<QImage> *img_queue;

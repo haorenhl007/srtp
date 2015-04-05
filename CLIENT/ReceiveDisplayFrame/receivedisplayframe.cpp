@@ -25,23 +25,20 @@ void TcpSocket::receive_frame()
 {
     if (this->size == 0)
     {
-        qDebug() << "this->bytesAbailable(): " << this->bytesAvailable();
         if (this->bytesAvailable() < sizeof(qint64))
             return;
         in >> this->size;
-        qDebug() << "this->size" << this->size << " this->bytesAvailable(): " << this->bytesAvailable();
     }
 
     if (this->bytesAvailable() < this->size)
         return;
 
-    qDebug() << "this->bytesAbailable(): " << this->bytesAvailable();
     QByteArray block = this->read(this->size);
-    qDebug() << "block.size()" << block.size();
 
     if (this->rdf->receive->tryAcquire())
     {
         this->rdf->img_queue->enqueue(QImage::fromData(block, "JPEG"));
+        qDebug() << "enqueue: " << this->rdf->img_queue->length();
         this->rdf->display->release();
     }
     this->size = 0;
@@ -61,8 +58,10 @@ void DisplayThread::run()
         if (this->rdf->display->tryAcquire())
         {
             this->image = this->rdf->img_queue->dequeue();
+            qDebug() << "dequeue: " << this->rdf->img_queue->length();
             this->label->setPixmap(QPixmap::fromImage(this->image));
             this->rdf->receive->release();
         }
+        this->msleep(300);
     }
 }
