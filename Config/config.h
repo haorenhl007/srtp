@@ -21,13 +21,13 @@ const char closeSystemCommand2 = 'j';
 
 const char * OPENSYSTEM = "open_system('D:\\MATLAB\\R2010b\\toolbox\\GoogolTech\\InvertedPendulum\\Flexible-Joint Inverted Pendulum\\L1FIPLQR.mdl')";
 const char * OPENSYSTEM2 = "open_system('D:\\MATLAB\\R2010b\\toolbox\\GoogolTech\\InvertedPendulum\\Flexible-Joint Inverted Pendulum\\L2FIPLQR.mdl')";
-const char * CONNECTSYSTEM = "set_param('L1FIPLQR', 'SimulationCommand', 'connect')";
-const char * DISCONNECTSYSTEM = "set_param('L1FIPLQR', 'SimulationCommand', 'disconnect')";
-const char * STARTSYSTEM = "set_param('L1FIPLQR', 'SimulationCommand', 'start')";
-const char * STOPSYSTEM = "set_param('L1FIPLQR', 'SimulationCommand', 'stop')";
+const char * CONNECTSYSTEM = "set_param('L2FIPLQR', 'SimulationCommand', 'connect')";
+const char * DISCONNECTSYSTEM = "set_param('L2FIPLQR', 'SimulationCommand', 'disconnect')";
+const char * STARTSYSTEM = "set_param('L2FIPLQR', 'SimulationCommand', 'start')";
+const char * STOPSYSTEM = "set_param('L2FIPLQR', 'SimulationCommand', 'stop')";
 const char * CLOSESYSTEM = "close_system('D:\\MATLAB\\R2010b\\toolbox\\GoogolTech\\InvertedPendulum\\Flexible-Joint Inverted Pendulum\\L1FIPLQR.mdl')";
 const char * CLOSESYSTEM2 = "close_system('D:\\MATLAB\\R2010b\\toolbox\\GoogolTech\\InvertedPendulum\\Flexible-Joint Inverted Pendulum\\L2FIPLQR.mdl')";
-const char * CDWORKDIRECTORY = "cd D:\\srtp-master\\build";
+const char * CDWORKDIRECTORY = "cd D:\\srtp-master";
 
 
 QList<QHostAddress> CONFIGSHARED_EXPORT IPs();

@@ -31,6 +31,9 @@ void TransferCmd::read_cmd()
         case openSystemCommand:
             this->label->setText(tr("System has been opened"));
             break;
+        case openSystemCommand2:
+            this->label->setText(tr("System has been opened"));
+            break;
         case connectSystemCommand:
             this->label->setText(tr("System has been connected"));
             break;
@@ -44,6 +47,9 @@ void TransferCmd::read_cmd()
             this->label->setText(tr("System has been stopped"));
             break;
         case closeSystemCommand:
+            this->label->setText(tr("System has been closed"));
+            break;
+        case closeSystemCommand2:
             this->label->setText(tr("System has been closed"));
             break;
         default:

@@ -55,14 +55,14 @@ namespace TransferFrame {
         {
             while(true)
             {
-                cap >> m;
-                //cvtColor(t, m, CV_BGR2GRAY);
+                cap >> t;
+                cvtColor(t, m, CV_BGR2GRAY);
                 if (this->csf->capture->tryAcquire())
                 {
                     this->csf->mat_queue->enqueue(m);
                     this->csf->send->release();
                 }
-                this->msleep(200);
+                this->msleep(300);
             }
         }
         else
@@ -103,10 +103,12 @@ namespace TransferFrame {
                 imshow("test", m);
                 waitKey(30);
 
+                /*
                 qDebug() << "mat_queue->size()" << this->csf->mat_queue->size()
                          << "; " << "buffer.size: " << buffer.size()
                          << "; " << "sizeof(qint32(buffer.size()))" << sizeof(qint64(buffer.size()))
                          << "; " << "send size: " << write_size;
+                */
             }
             this->csf->capture->release();
         }

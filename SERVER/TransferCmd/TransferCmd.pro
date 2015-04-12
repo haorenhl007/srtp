@@ -27,3 +27,7 @@ else:unix: LIBS += -L$$OUT_PWD/../../Config/ -lConfig
 
 INCLUDEPATH += $$PWD/../../Config
 DEPENDPATH += $$PWD/../../Config
+
+INCLUDEPATH += "D:\MATLAB\R2010b\extern\include"
+
+LIBS += -L"D:\MATLAB\R2010b\extern\lib\win32\microsoft" -llibeng -llibmat -llibmx

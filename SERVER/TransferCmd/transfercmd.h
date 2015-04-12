@@ -4,6 +4,7 @@
 #include "transfercmd_global.h"
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <engine.h>
 
 namespace TransferCmd {
     class TRANSFERCMDSHARED_EXPORT TransferCmd: public QTcpServer
@@ -42,7 +43,7 @@ namespace TransferCmd {
 
 
     private:
-        //Engine *ep;
+        Engine *ep;
     };
     }
 

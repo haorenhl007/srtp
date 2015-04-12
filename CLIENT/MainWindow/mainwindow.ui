@@ -88,6 +88,8 @@
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+         <zorder>frameLabel</zorder>
+         <zorder></zorder>
         </widget>
         <widget class="QWidget" name="waveTab">
          <attribute name="title">
@@ -118,54 +120,47 @@
         </widget>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="statusLabel">
+        <property name="text">
+         <string>Status</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
        <layout class="QGridLayout" name="gridLayout">
-        <item row="3" column="1">
-         <widget class="QPushButton" name="closeSystemBtn">
-          <property name="text">
-           <string>Close System</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="startSystemBtn">
-          <property name="text">
-           <string>Start System</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="0">
-         <widget class="QPushButton" name="disconnectSystemBtn">
-          <property name="text">
-           <string>Disconnect System</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="connectSystemBtn">
-          <property name="text">
-           <string>Connect System</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
          <widget class="QPushButton" name="stopSystemBtn">
           <property name="text">
            <string>Stop System</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QRadioButton" name="twoLevelBtn">
+        <item row="3" column="1">
+         <widget class="QPushButton" name="disconnectSystemBtn">
           <property name="text">
-           <string>Two Level</string>
+           <string>Disconnect System</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="connectSystemBtn">
+          <property name="text">
+           <string>Connect System</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="openSystemBtn">
+          <property name="text">
+           <string>Open System</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="openSystemBtn">
+         <widget class="QPushButton" name="openMatLabBtn">
           <property name="text">
-           <string>Open System</string>
+           <string>Open MatLab</string>
           </property>
          </widget>
         </item>
@@ -176,14 +171,35 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="startSystemBtn">
+          <property name="text">
+           <string>Start System</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="twoLevelBtn">
+          <property name="text">
+           <string>Two Level</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="closeSystemBtn">
+          <property name="text">
+           <string>Close System</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QPushButton" name="closeMatLabBtn">
+          <property name="text">
+           <string>Close MatLab</string>
+          </property>
+         </widget>
+        </item>
        </layout>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="statusLabel">
-        <property name="text">
-         <string>Status</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </item>

@@ -60,3 +60,7 @@ else:unix: LIBS += -L$$OUT_PWD/../TransferFrame/ -lTransferFrame
 
 INCLUDEPATH += $$PWD/../TransferFrame
 DEPENDPATH += $$PWD/../TransferFrame
+
+INCLUDEPATH += "D:\MATLAB\R2010b\extern\include"
+
+LIBS += -L"D:\MATLAB\R2010b\extern\lib\win32\microsoft" -llibeng -llibmat -llibmx

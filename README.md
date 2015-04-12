@@ -10,8 +10,7 @@
 
 * 就算调用QImage的save方法时压缩了,图片的size依然很大.最开始的程序计划使用UDP传输,想法是视频嘛丢几帧也没关系 ,
 后来发现一个UDP用户数据报不可能存得了,
-对于UDP而言,你write多大的包,它就发多大的包,但是这个包太大的话就会被IP层?数据链路层?切成小包,UDP不会去组合它们,丢了也不管.
-而且丢了数据我就不能利用剩下的数据构造QImage了.
+对于UDP而言,你write多大的包,它就发多大的包,但是这个包太大的话就会被IP层?数据链路层?切成小包.
 
 * 所以我改为使用TCP传输怎么传呢?TCP是流,但是我的QImage得有首部和身体,所以先发送QImage的size,再发送QImage的body(即buffer的size和data).
 
@@ -21,6 +20,9 @@
 * 然后从[stackoverflow.com](http://stackoverflow.com/questions/24379915/receiving-raw-image-data-through-tcp-for-display-using-qt)
 上找到了答案,原来QDataStream处理定长数据的输入输出,我的buffer.data()不像int,double是固定size的类型,所以不能使用QDataStrem,
 无论输入输出,对于这种不是固定长度的类型你都不能用QDataStream!
+
+* 控制流和视频流占用了两个TCP端口, 这样其实不好, 因为TCP是使用`<client_ip, client_port, server_ip, server_port>`这样的四元组标识一个连接的.
+server port共用一个完全没有问题, 开两个端口太浪费了
 
 * 发送/接收这两个函数是本程序的精髓,哈~
 
@@ -38,5 +40,3 @@
 
 * 控制的那部分, 实际是调用MatLab的API, 那些命令可以查MatLab自带的文档, 也可以参考下[我的](http://28hua.org/post/2014-10/remote_control_matlab)
 
-
-![j](https://github.com/28hua/srtp/blob/master/j.png)

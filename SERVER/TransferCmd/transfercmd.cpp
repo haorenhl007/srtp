@@ -32,6 +32,7 @@ namespace TransferCmd {
         char *c = new char;
         if (this->getChar(c) == true)
         {
+            qDebug() << *c << endl;
             switch (*c)
             {
             case openCommand:
@@ -73,65 +74,66 @@ namespace TransferCmd {
 
     void TcpSocket::openMatLab()
     {
-        //if (this->ep = engOpen(""))
-        //{
+        if (this->ep = engOpen(""))
+        {
             this->putChar(openCommand);
-        //}
+        }
 
     }
 
     void TcpSocket::closeMatLab()
     {
-        //engClose(ep);
+        engClose(ep);
         this->putChar(closeCommand);
     }
 
     void TcpSocket::openSystem()
     {
-        //engEvalString(ep, CDWORKDIRECTORY);
-        //engEvalString(ep, OPENSYSTEM);
+        engEvalString(ep, CDWORKDIRECTORY);
+        engEvalString(ep, OPENSYSTEM);
         this->putChar(openSystemCommand);
     }
 
     void TcpSocket::openSystem2()
     {
-        //engEvalString(ep, CDWORKDIRECTORY);
-        //engEvalString(ep, OPENSYSTEM2);
+        engEvalString(ep, CDWORKDIRECTORY);
+        engEvalString(ep, OPENSYSTEM2);
         this->putChar(openSystemCommand2);
     }
 
     void TcpSocket::connectSystem()
     {
-        //engEvalString(ep, CONNECTSYSTEM);
+        engEvalString(ep, CONNECTSYSTEM);
+        qDebug() << "exec connecting system";
         this->putChar(connectSystemCommand);
     }
 
     void TcpSocket::disconnectSystem()
     {
-        //engEvalString(ep, DISCONNECTSYSTEM);
+        engEvalString(ep, DISCONNECTSYSTEM);
         this->putChar(disconnectSystemCommand);
     }
 
     void TcpSocket::startSystem()
     {
-        //engEvalString(ep, STARTSYSTEM);
+        engEvalString(ep, STARTSYSTEM);
         this->putChar(startSystemCommand);
     }
     void TcpSocket::stopSystem()
     {
-        //engEvalString(ep, STOPSYSTEM);
+        engEvalString(ep, STOPSYSTEM);
         this->putChar(stopSystemCommand);
     }
 
     void TcpSocket::closeSystem()
     {
-        //engEvalString(ep, CLOSESYSTEM);
+        engEvalString(ep, CLOSESYSTEM);
         this->putChar(closeSystemCommand);
     }
 
     void TcpSocket::closeSystem2()
     {
-        //engEvalString(ep, CLOSESYSTEM2);
+        engEvalString(ep, CLOSESYSTEM2);
         this->putChar(closeSystemCommand2);
     }
 }

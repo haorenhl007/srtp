@@ -37,6 +37,10 @@ private slots:
 
     void on_twoLevelBtn_clicked();
 
+    void on_openMatLabBtn_clicked();
+
+    void on_closeMatLabBtn_clicked();
+
 private:
     //void openMatLab();
     //void closeMatLab();

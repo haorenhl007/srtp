@@ -81,17 +81,6 @@ void MainWindow::on_disconnectBtn_clicked()
 void MainWindow::on_openSystemBtn_clicked()
 {
     char o = this->one_level ? openSystemCommand : openSystemCommand2;
-
-
-    if (this->tfc->putChar(openCommand) == false)
-    {
-
-        QMessageBox::information(this, tr("Write Error"), tr("Error"));
-    }
-    else
-    {
-        ui->statusLabel->setText(tr("MatLab is starting"));
-    }
     if (this->tfc->putChar(o) == false)
     {
         QMessageBox::information(this, tr("Write Error"), tr("Error"));
@@ -172,4 +161,30 @@ void MainWindow::on_oneLevelBtn_clicked()
 void MainWindow::on_twoLevelBtn_clicked()
 {
     this->one_level = false;
+}
+
+void MainWindow::on_openMatLabBtn_clicked()
+{
+    if (this->tfc->putChar(openCommand) == false)
+    {
+
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        ui->statusLabel->setText(tr("MatLab is starting"));
+    }
+
+}
+
+void MainWindow::on_closeMatLabBtn_clicked()
+{
+    if (this->tfc->putChar(closeCommand) == false)
+    {
+        QMessageBox::information(this, tr("Write Error"), tr("Error"));
+    }
+    else
+    {
+        ui->statusLabel->setText(tr("Closing MatLab"));
+    }
 }

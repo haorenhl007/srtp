@@ -38,7 +38,7 @@ void TcpSocket::receive_frame()
     if (this->rdf->receive->tryAcquire())
     {
         this->rdf->img_queue->enqueue(QImage::fromData(block, "JPEG"));
-        qDebug() << "enqueue: " << this->rdf->img_queue->length();
+        //qDebug() << "enqueue: " << this->rdf->img_queue->length();
         this->rdf->display->release();
     }
     this->size = 0;
@@ -58,7 +58,7 @@ void DisplayThread::run()
         if (this->rdf->display->tryAcquire())
         {
             this->image = this->rdf->img_queue->dequeue();
-            qDebug() << "dequeue: " << this->rdf->img_queue->length();
+            //qDebug() << "dequeue: " << this->rdf->img_queue->length();
             this->label->setPixmap(QPixmap::fromImage(this->image));
             this->rdf->receive->release();
         }
