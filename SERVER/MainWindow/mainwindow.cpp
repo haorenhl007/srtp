@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->transfer_cmd = new TransferCmd::TransferCmd(this);
     this->transfer_frame = new TransferFrame::TransferFrame(this);
 
-
+    //在窗体上现实服务端的IP地址列表
     QList<QHostAddress> list(IPs());
     QList<QHostAddress>::const_iterator iter = list.begin();
     QString str("Status:\n\n\tIP: ");

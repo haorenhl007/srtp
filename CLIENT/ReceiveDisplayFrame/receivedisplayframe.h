@@ -13,8 +13,8 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT ReceiveDisplayFrame: public QObject
 {
     Q_OBJECT
 
-    friend class DisplayThread;
-    friend class TcpSocket;
+    friend class DisplayThread;//使用友元类是因为img_queue,receive,display的访问权限都是私有
+    friend class TcpSocket;    //但是DisplayThread和TcpSocket类都需要访问它们
 public:
     ReceiveDisplayFrame(QObject *parent=0, int buffersize=50);
 
@@ -29,10 +29,11 @@ class RECEIVEDISPLAYFRAMESHARED_EXPORT DisplayThread: public QThread
 {
     Q_OBJECT
 public:
+    //DisplayThread类需要访问ReceiveDisplayFrame类,所以参数中需要有一个执行它的指针rdf,图片需要在label上刷新.
     DisplayThread(QObject *parent=0, ReceiveDisplayFrame *rdf = nullptr, QLabel *label = nullptr);
 
 protected:
-    void run();
+    void run();//线程start后执行run
 
 private:
     ReceiveDisplayFrame *rdf;

@@ -5,7 +5,7 @@ namespace TransferCmd {
     TransferCmd::TransferCmd(QObject *parent):
         QTcpServer(parent)
     {
-        QHostAddress ip = IPs().first();
+        QHostAddress ip = IPs().first();//使用发现的主机IP的第一个IP
         if (!ip.isNull())
         {
             this->listen(ip, transfer_cmd_port);

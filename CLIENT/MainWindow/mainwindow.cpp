@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->one_level = true;
 
+    //按钮需要被有序地按下,因此需要控制按钮能否被按下以及设置下一个默认被按下的按钮.未实现此功能!
     btnList.append(ui->connectBtn);
     btnList.append(ui->disconnectBtn);
     btnList.append(ui->openSystemBtn);
